@@ -14,7 +14,7 @@ int main() {
 	TextNote note("hello");
 	std::cout<<"title="<<note.title()<<", text="<<note.text()<<",created="<<note.creation_time_string()<<std::endl;
 
-	TextNote wrong("");
+	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
 	return 0;
 }
