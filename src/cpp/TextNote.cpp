@@ -15,14 +15,14 @@ TextNote::TextNote(std::string title, std::string text): _title{title}, _text{te
 
 }
 
-std::string TextNote::title() {
+std::string TextNote::title() const {
 	return _title;
 }
 
-std::string TextNote::text() {
+std::string TextNote::text() const {
 	return _text;
 }
 
-std::string TextNote::creation_time_string() {
+std::string TextNote::creation_time_string() const {
 	return std::asctime(std::localtime(&_creation_time));
 }

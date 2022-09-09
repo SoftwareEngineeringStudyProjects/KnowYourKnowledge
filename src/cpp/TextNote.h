@@ -14,9 +14,9 @@
 class TextNote {
 public:
 	TextNote(std::string title, std::string text = "");
-	std::string title();
-	std::string text();
-	std::string creation_time_string();
+	std::string title() const;
+	std::string text() const;
+	std::string creation_time_string() const;
 private:
 	std::string _title;
 	std::string _text;
