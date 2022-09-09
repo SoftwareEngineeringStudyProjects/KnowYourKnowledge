@@ -7,7 +7,10 @@
 
 #include "TextNote.h"
 
+#include <stdexcept>
+
 TextNote::TextNote(std::string title, std::string text): _title{title}, _text{text} {
+	if (title.length() == 0) { throw std::runtime_error("title is empty"); }
 	_creation_time = std::time(nullptr);
 
 }
