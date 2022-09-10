@@ -88,6 +88,5 @@ std::string FileBuilder::readText(std::ifstream& file) {
 			noteText += "\n";
 		}
 	}
-	file.clear();
 	return noteText;
 }
