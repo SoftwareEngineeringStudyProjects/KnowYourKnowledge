@@ -1,44 +1,40 @@
 #include "FileBuilder.h"
 #include <cassert>
  bool FileBuilder::toFile(TextNote note, std::string path) {
-	 std::ofstream file = createFile(note, path);
+	 std::ofstream file = createFile(note.title(), path);
 	 if (file.fail())
 		 return true;
 
-	 writeFile(file, note);
+	 writeNote(file, note);
 	 file.close();
 
 	 return false;
 
 }
 
- void FileBuilder::writeFile(std::ofstream& file, TextNote note) {
-	 writeTitle(file, note);
-	 writeCreationTime(file, note);
+ void FileBuilder::writeNote(std::ofstream& file, TextNote note) {
+	 writeTitle(file, note.title());
+	 writeCreationTime(file, note.creation_time());
 	 writeText(file, note);
  }
 
-
-
-
- std::ofstream FileBuilder::createFile(TextNote note, std::string path) {
+ std::ofstream FileBuilder::createFile(std::string name, std::string path) {
 	 std::ofstream file;
-	 file.open(getFileName(note, path));
+	 file.open(getFileName(name, path));
 	 return file;
  }
- std::string FileBuilder::getFileName(TextNote note,std::string path) {
-	 return note.title() + "." +
-			 TEXT_FILE_EXTENSION;
+ std::string FileBuilder::getFileName(std::string name, std::string path) {
+	 return path + name + "." + TEXT_FILE_EXTENSION;
  }
 
 
- void FileBuilder::writeTitle(std::ofstream& file, TextNote note) {
-	 file << note.title() << "\n";
+ void FileBuilder::writeTitle(std::ofstream& file, std::string title) {
+	 file <<title << "\n";
  }
- void FileBuilder::writeCreationTime(std::ofstream& file, TextNote note) {
- 	 file << toDateFormat(note.creation_time()) << "\n";
+ void FileBuilder::writeCreationTime(std::ofstream& file, std::time_t creation_time) {
+ 	 file << toDateFormat(creation_time) << "\n";
  }
- void FileBuilder::writeText(std::ofstream& file, TextNote note) {
+ void FileBuilder::writeNote(std::ofstream& file, TextNote note) {
 	 file << note.text();
  }
 
@@ -90,7 +86,6 @@ std::string FileBuilder::readText(std::ifstream& file) {
 	return noteText;
 }
 
-
 std::string FileBuilder::toDateFormat(std::time_t time) {
 	const unsigned int maxChar = 40;
 	char date[maxChar];
@@ -108,5 +103,20 @@ std::time_t FileBuilder::fromDateFormat(std::string str) {
 	int a = 0;
 	a++;
 	return std::mktime(&tm);
+}
+
+
+bool FileBuilder::collectionToFile(TextNoteCollection collection, std::string path) {
+	std::ofstream file = createFile(collection.title(), path);
+	writeTitle(file, collection.title());
+	writeCreationTime(file, collection.creation_time());
+	writeCollectionNotes(file, collection);
+	return false;
+}
+
+void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection collection) {
+	for (std::size_t i = 0; i < collection.size(); i++) {
+		writeNote(file, collection.getNote(i));
+	}
 }
 

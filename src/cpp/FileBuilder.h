@@ -1,7 +1,7 @@
 /*
  * FileBuilder.h
  *
- *  Created on:  9 Sep. 2022 р.
+ *  Created on:  9 Sep. 2022
  *      Author: MouseCreateor
  */
 
@@ -11,6 +11,7 @@
 #include <fstream>
 
 #include "TextNote.h"
+#include "TextNoteCollection.h"
 #include <ctime>
 
 /*
@@ -23,15 +24,20 @@
 class FileBuilder {
 public:
 	static bool toFile(TextNote note, std::string path = "");
-	static std::string getFileName(TextNote note, std::string path = "");
 	static TextNote fromFile(std::string filename);
+	static bool collectionToFile(TextNoteCollection collection, std::string path = "");
+
+	static std::string toDateFormat(std::time_t time);
+	static std::time_t fromDateFormat(std::string str);
+	static std::string getFileName(std::string name, std::string path = "");
 private:
 	static constexpr const char* TEXT_FILE_EXTENSION = "txt";
 
-	static std::ofstream createFile(TextNote note, std::string path);
-	static void writeFile(std::ofstream& file, TextNote note);
-	static void writeTitle(std::ofstream& file, TextNote note);
-	static void writeCreationTime(std::ofstream& file, TextNote note);
+	static std::ofstream createFile(std::string name, std::string path);
+
+	static void writeNote(std::ofstream& file, TextNote note);
+	static void writeTitle(std::ofstream& file, std::string title);
+	static void writeCreationTime(std::ofstream& file, std::time_t creation_time);
 	static void writeText(std::ofstream& file, TextNote note);
 
 	static std::ifstream openFile(std::string path);
@@ -39,9 +45,8 @@ private:
 	static std::string readTitle(std::ifstream& file);
 	static std::time_t readCreationTime(std::ifstream& file);
 	static std::string readText(std::ifstream& file);
-
-	static std::string toDateFormat(std::time_t time);
-	static std::time_t fromDateFormat(std::string str);
+	static int countBrackets(std::string str);
+	static void writeCollectionNotes(std::ofstream& file, TextNoteCollection collection);
 
 
 
