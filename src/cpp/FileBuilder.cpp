@@ -13,8 +13,8 @@
 }
 
  void FileBuilder::writeNote(std::ofstream& file, TextNote* note) {
-	 writeTitle(file, note->title());
 	 writeCreationTime(file, note->creation_time());
+	 writeTitle(file, note->title());
 	 writeText(file, note);
  }
 
@@ -53,8 +53,8 @@ std::ifstream FileBuilder::openFile(std::string filename) {
 }
 
 TextNote FileBuilder::initTextNote(std::ifstream& file) {
-	std::string title = readTitle(file);
 	std::time_t creationTime = readCreationTime(file);
+	std::string title = readTitle(file);
 	std::string text = readText(file);
 
 	return TextNote(title, text, creationTime);
@@ -108,8 +108,8 @@ std::time_t FileBuilder::fromDateFormat(std::string str) {
 
 bool FileBuilder::toFile(TextNoteCollection* collection, std::string path) {
 	std::ofstream file = createFile(collection->title(), path);
-	writeTitle(file, collection->title());
 	writeCreationTime(file, collection->creation_time());
+	writeTitle(file, collection->title());
 	writeCollectionNotes(file, collection);
 	return false;
 }
@@ -123,8 +123,8 @@ void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection* 
 TextNoteCollection FileBuilder::collectionFromFile(std::string filename) {
 	std::ifstream file = openFile(filename);
 
-	std::string title = readTitle(file);
 	std::time_t creationTime = readCreationTime(file);
+	std::string title = readTitle(file);
 	TextNoteCollection collection = TextNoteCollection(title, creationTime);
 	readCollectionNotes(file, collection);
 	return collection;
