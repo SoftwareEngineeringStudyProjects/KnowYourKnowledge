@@ -1,7 +1,7 @@
 #include "FileBuilder.h"
 #include <cassert>
- bool FileBuilder::toFile(TextNote note, std::string path) {
-	 std::ofstream file = createFile(note.title(), path);
+ bool FileBuilder::toFile(TextNote* note, std::string path) {
+	 std::ofstream file = createFile(note->title(), path);
 	 if (file.fail())
 		 return true;
 
@@ -12,9 +12,9 @@
 
 }
 
- void FileBuilder::writeNote(std::ofstream& file, TextNote note) {
-	 writeTitle(file, note.title());
-	 writeCreationTime(file, note.creation_time());
+ void FileBuilder::writeNote(std::ofstream& file, TextNote* note) {
+	 writeTitle(file, note->title());
+	 writeCreationTime(file, note->creation_time());
 	 writeText(file, note);
  }
 
@@ -34,8 +34,8 @@
  void FileBuilder::writeCreationTime(std::ofstream& file, std::time_t creation_time) {
  	 file << toDateFormat(creation_time) << "\n";
  }
- void FileBuilder::writeNote(std::ofstream& file, TextNote note) {
-	 file << note.text();
+ void FileBuilder::writeText(std::ofstream& file, TextNote* note) {
+	 file << note->text() << END_CHAR;
  }
 
 TextNote FileBuilder::fromFile(std::string filename){
@@ -79,9 +79,11 @@ std::string FileBuilder::readText(std::ifstream& file) {
 
 	while (std::getline(file, line)) {
 		noteText += line;
-		if (!file.eof()) {
-			noteText += "\n";
+		if (line.find(END_CHAR) != std::string::npos) {
+			noteText.pop_back();
+			break;
 		}
+		noteText += "\n";
 	}
 	return noteText;
 }
@@ -106,17 +108,18 @@ std::time_t FileBuilder::fromDateFormat(std::string str) {
 }
 
 
-bool FileBuilder::collectionToFile(TextNoteCollection collection, std::string path) {
-	std::ofstream file = createFile(collection.title(), path);
-	writeTitle(file, collection.title());
-	writeCreationTime(file, collection.creation_time());
+bool FileBuilder::collectionToFile(TextNoteCollection* collection, std::string path) {
+	std::ofstream file = createFile(collection->title(), path);
+	writeTitle(file, collection->title());
+	writeCreationTime(file, collection->creation_time());
 	writeCollectionNotes(file, collection);
 	return false;
 }
 
-void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection collection) {
+void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection) {
 	for (std::size_t i = 0; i < collection.size(); i++) {
-		writeNote(file, collection.getNote(i));
+		TextNote note = collection.getNote(i);
+		writeNote(file, &note);
 	}
 }
 

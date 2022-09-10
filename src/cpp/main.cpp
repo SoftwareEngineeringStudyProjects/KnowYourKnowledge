@@ -17,7 +17,7 @@ int main() {
 	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
 	TextNote note2("test", "some \n\n\tmessage\n\n");
-	FileBuilder::toFile(note2);
+	FileBuilder::toFile(&note2);
 
 	std::string path = FileBuilder::getFileName(note2.title());
 	TextNote note3 = FileBuilder::fromFile(path);
