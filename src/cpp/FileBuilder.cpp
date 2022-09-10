@@ -102,8 +102,6 @@ std::time_t FileBuilder::fromDateFormat(std::string str) {
 
 	tm.tm_year -= 1900; //1900 -> 0, 2022 -> 122
 	tm.tm_mon -= 1; //January = 0
-	int a = 0;
-	a++;
 	return std::mktime(&tm);
 }
 

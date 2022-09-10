@@ -33,8 +33,8 @@ public:
 private:
 	static constexpr const char* TEXT_FILE_EXTENSION = "txt";
 	static constexpr char END_CHAR = -3;
-	static std::ofstream createFile(std::string name, std::string path);
 
+	static std::ofstream createFile(std::string name, std::string path);
 	static void writeNote(std::ofstream& file, TextNote* note);
 	static void writeTitle(std::ofstream& file, std::string title);
 	static void writeCreationTime(std::ofstream& file, std::time_t creation_time);
