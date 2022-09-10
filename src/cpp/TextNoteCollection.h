@@ -11,15 +11,18 @@
 #include "TextNote.h"
 class TextNoteCollection {
 public:
-	TextNoteCollection(std::string name, std::time_t creation_time);
+	TextNoteCollection(std::string title);
+	TextNoteCollection(std::string title, std::time_t creation_time);
 	virtual ~TextNoteCollection();
 
-	void addNote(TextNote note);
-	void removeNote(TextNote note);
-	TextNote getNote(std::size_t num);
-	std::string title();
-	std::time_t creation_time();
-	std::size_t size();
+	void add(TextNote note);
+	void remove(TextNote note);
+	TextNote getNote(std::size_t num) const;
+	std::string title() const;
+	std::time_t creation_time() const;
+	std::string creation_time_string() const;
+	std::size_t size() const;
+	void print() const;
 private:
 	std::vector<TextNote> notes;
 

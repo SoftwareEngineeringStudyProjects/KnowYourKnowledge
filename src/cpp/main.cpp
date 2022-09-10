@@ -16,12 +16,19 @@ int main() {
 
 	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
-	TextNote note2("test", "some \n\n\tmessage\n\n");
-	FileBuilder::toFile(&note2);
+	TextNote note2("test1", "Listen to");
+	TextNote note3("test2", " the wind\n");
+	TextNote note4("test3", "of changes");
+	TextNoteCollection collection("test");
+	collection.add(note);
+	collection.add(note2);
+	collection.add(note3);
+	collection.add(note4);
+	FileBuilder::toFile(&collection);
 
-	std::string path = FileBuilder::getFileName(note2.title());
-	TextNote note3 = FileBuilder::fromFile(path);
-	note3.print();
+
+	TextNoteCollection collection2 = FileBuilder::collectionFromFile("test");
+	collection2.print();
 	return 0;
 }
 

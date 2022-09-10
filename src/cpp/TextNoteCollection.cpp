@@ -9,21 +9,35 @@
 
 TextNoteCollection::TextNoteCollection(std::string title, std::time_t creation_time):
 _title(title), _creation_time(creation_time){}
-
+TextNoteCollection::TextNoteCollection(std::string title):
+_title(title) { _creation_time = std::time(nullptr); }
 TextNoteCollection::~TextNoteCollection() {
 
 }
 
 
-std::string TextNoteCollection::title() {
+std::string TextNoteCollection::title() const{
 	return _title;
 }
-std::time_t TextNoteCollection::creation_time() {
+std::time_t TextNoteCollection::creation_time() const{
 	return _creation_time;
 }
-std::size_t TextNoteCollection::size() {
+std::size_t TextNoteCollection::size() const {
 	return notes.size();
 }
-TextNote TextNoteCollection::getNote(std::size_t num) {
+
+void TextNoteCollection::add(TextNote note)  {
+	notes.emplace_back(note);
+}
+TextNote TextNoteCollection::getNote(std::size_t num) const{
 	return notes[num];
+}
+std::string TextNoteCollection::creation_time_string() const{
+	return std::asctime(std::localtime(&_creation_time));
+}
+void TextNoteCollection::print() const{
+	std::cout << "Collection:\n"<<"title="<<_title<<",created="<<_creation_time<<"\n";
+	for (std::size_t i = 0; i < notes.size();i++) {
+		notes[i].print();
+	}
 }

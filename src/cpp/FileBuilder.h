@@ -25,8 +25,8 @@ class FileBuilder {
 public:
 	static bool toFile(TextNote* note, std::string path = "");
 	static TextNote fromFile(std::string filename);
-	static bool collectionToFile(TextNoteCollection* collection, std::string path = "");
-
+	static bool toFile(TextNoteCollection* collection, std::string path = "");
+	static TextNoteCollection collectionFromFile(std::string filename);
 	static std::string toDateFormat(std::time_t time);
 	static std::time_t fromDateFormat(std::string str);
 	static std::string getFileName(std::string name, std::string path = "");
@@ -47,6 +47,7 @@ private:
 	static std::string readText(std::ifstream& file);
 	static int countBrackets(std::string str);
 	static void writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection);
+	static void readCollectionNotes(std::ifstream& file, TextNoteCollection& collection);
 
 
 

@@ -29,13 +29,13 @@
 
 
  void FileBuilder::writeTitle(std::ofstream& file, std::string title) {
-	 file <<title << "\n";
+	 file << title << "\n";
  }
  void FileBuilder::writeCreationTime(std::ofstream& file, std::time_t creation_time) {
  	 file << toDateFormat(creation_time) << "\n";
  }
  void FileBuilder::writeText(std::ofstream& file, TextNote* note) {
-	 file << note->text() << END_CHAR;
+	 file << note->text() << END_CHAR << "\n";
  }
 
 TextNote FileBuilder::fromFile(std::string filename){
@@ -47,7 +47,7 @@ TextNote FileBuilder::fromFile(std::string filename){
 
 std::ifstream FileBuilder::openFile(std::string filename) {
 	std::ifstream file;
-	file.open(filename);
+	file.open(getFileName(filename));
 	assert (!file.fail()); //file exists
 	return file;
 }
@@ -108,7 +108,7 @@ std::time_t FileBuilder::fromDateFormat(std::string str) {
 }
 
 
-bool FileBuilder::collectionToFile(TextNoteCollection* collection, std::string path) {
+bool FileBuilder::toFile(TextNoteCollection* collection, std::string path) {
 	std::ofstream file = createFile(collection->title(), path);
 	writeTitle(file, collection->title());
 	writeCreationTime(file, collection->creation_time());
@@ -120,6 +120,21 @@ void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection* 
 	for (std::size_t i = 0; i < collection->size(); i++) {
 		TextNote note = collection->getNote(i);
 		writeNote(file, &note);
+	}
+}
+TextNoteCollection FileBuilder::collectionFromFile(std::string filename) {
+	std::ifstream file = openFile(filename);
+
+	std::string title = readTitle(file);
+	std::time_t creationTime = readCreationTime(file);
+	TextNoteCollection collection = TextNoteCollection(title, creationTime);
+	readCollectionNotes(file, collection);
+	return collection;
+}
+
+void FileBuilder::readCollectionNotes(std::ifstream& file, TextNoteCollection& collection) {
+	while (file.peek() != EOF) {
+		collection.add(initTextNote(file));
 	}
 }
 
