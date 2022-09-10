@@ -6,16 +6,22 @@
  */
 
 #include "TextNote.h"
-
+#include "FileBuilder.h"
 #include <iostream>
 
 int main() {
 	std::cout<<"123"<<std::endl;
 	TextNote note("hello");
-	std::cout<<"title="<<note.title()<<", text="<<note.text()<<",created="<<note.creation_time_string()<<std::endl;
+	note.print();
 
 	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
+	TextNote note2("test", "some \n\n\tmessage\n\n");
+	FileBuilder::toFile(note2);
+
+	std::string path = FileBuilder::getFileName(note2.title());
+	TextNote note3 = FileBuilder::fromFile(path);
+	note3.print();
 	return 0;
 }
 
