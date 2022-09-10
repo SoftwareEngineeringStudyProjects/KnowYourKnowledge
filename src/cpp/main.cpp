@@ -17,7 +17,7 @@ int main() {
 	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
 	TextNote note2("test1", "Listen to");
-	TextNote note3("test2", " the wind\n");
+	TextNote note3("test2", " the wind\n\n");
 	TextNote note4("test3", "of changes");
 	TextNoteCollection collection("test");
 	collection.add(note);
