@@ -40,6 +40,9 @@ private:
 	static std::time_t readCreationTime(std::ifstream& file);
 	static std::string readText(std::ifstream& file);
 
+	static std::string toDateFormat(std::time_t time);
+	static std::time_t fromDateFormat(std::string str);
+
 
 
 

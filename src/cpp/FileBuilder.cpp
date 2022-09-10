@@ -36,7 +36,7 @@
 	 file << note.title() << "\n";
  }
  void FileBuilder::writeCreationTime(std::ofstream& file, TextNote note) {
- 	 file << note.creation_time() << "\n";
+ 	 file << toDateFormat(note.creation_time()) << "\n";
  }
  void FileBuilder::writeText(std::ofstream& file, TextNote note) {
 	 file << note.text();
@@ -69,12 +69,11 @@ std::string FileBuilder::readTitle(std::ifstream& file) {
 	return title;
 }
 std::time_t FileBuilder::readCreationTime(std::ifstream& file) {
-	const int charsInDate = 12;
-	std::time_t time;
-	char date[charsInDate];
+	std::string line;
 
-	file.getline(date, charsInDate);
-	time = std::atoi(date);
+	std::getline(file, line);
+	std::time_t time = fromDateFormat(line);
+	assert (time != -1); //is valid
 	return time;
 }
 
@@ -90,3 +89,24 @@ std::string FileBuilder::readText(std::ifstream& file) {
 	}
 	return noteText;
 }
+
+
+std::string FileBuilder::toDateFormat(std::time_t time) {
+	const unsigned int maxChar = 40;
+	char date[maxChar];
+	std::strftime(date, sizeof(date), "%Y.%m.%d %H:%M:%S", std::localtime(&time));
+	return std::string(date);
+}
+
+std::time_t FileBuilder::fromDateFormat(std::string str) {
+	struct std::tm tm;
+	std::sscanf(str.c_str(), "%d.%d.%d %d:%d:%d", &tm.tm_year,
+			&tm.tm_mon, &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
+
+	tm.tm_year -= 1900; //1900 -> 0, 2022 -> 122
+	tm.tm_mon -= 1; //January = 0
+	int a = 0;
+	a++;
+	return std::mktime(&tm);
+}
+
