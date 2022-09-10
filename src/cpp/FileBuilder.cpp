@@ -117,8 +117,8 @@ bool FileBuilder::collectionToFile(TextNoteCollection* collection, std::string p
 }
 
 void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection) {
-	for (std::size_t i = 0; i < collection.size(); i++) {
-		TextNote note = collection.getNote(i);
+	for (std::size_t i = 0; i < collection->size(); i++) {
+		TextNote note = collection->getNote(i);
 		writeNote(file, &note);
 	}
 }
