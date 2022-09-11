@@ -19,11 +19,9 @@ int main() {
 	TextNote note2("test1", "Listen to");
 	TextNote note3("test2", " the wind\n\n");
 	TextNote note4("test3", "of changes");
+
 	TextNoteCollection collection("test");
-	collection.add(note);
-	collection.add(note2);
-	collection.add(note3);
-	collection.add(note4);
+	collection.add(note)->add(note2)->add(note3)->add(note4);
 	FileBuilder::toFile(&collection);
 
 

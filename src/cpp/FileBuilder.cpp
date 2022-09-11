@@ -1,16 +1,20 @@
 #include "FileBuilder.h"
 #include <cassert>
- bool FileBuilder::toFile(TextNote* note, std::string path) {
+
+
+ void FileBuilder::toFile(TextNote* note, std::string path) {
 	 std::ofstream file = createFile(note->title(), path);
-	 if (file.fail())
-		 return true;
 
 	 writeNote(file, note);
 	 file.close();
 
-	 return false;
-
 }
+ std::ofstream FileBuilder::createFile(std::string name, std::string path) {
+	 std::ofstream file;
+	 file.open(getFileName(name, path));
+	 assert (!file.fail());
+	 return file;
+ }
 
  void FileBuilder::writeNote(std::ofstream& file, TextNote* note) {
 	 writeCreationTime(file, note->creation_time());
@@ -18,11 +22,7 @@
 	 writeText(file, note);
  }
 
- std::ofstream FileBuilder::createFile(std::string name, std::string path) {
-	 std::ofstream file;
-	 file.open(getFileName(name, path));
-	 return file;
- }
+
  std::string FileBuilder::getFileName(std::string name, std::string path) {
 	 return path + name + "." + TEXT_FILE_EXTENSION;
  }
@@ -48,7 +48,7 @@ TextNote FileBuilder::fromFile(std::string filename){
 std::ifstream FileBuilder::openFile(std::string filename) {
 	std::ifstream file;
 	file.open(getFileName(filename));
-	assert (!file.fail()); //file exists
+	assert (!file.fail());
 	return file;
 }
 
@@ -69,7 +69,7 @@ std::time_t FileBuilder::readCreationTime(std::ifstream& file) {
 
 	std::getline(file, line);
 	std::time_t time = fromDateFormat(line);
-	assert (time != -1); //is valid
+	assert (time != -1);
 	return time;
 }
 
@@ -79,7 +79,7 @@ std::string FileBuilder::readText(std::ifstream& file) {
 
 	while (std::getline(file, line)) {
 		noteText += line;
-		if (line.find(END_CHAR) != std::string::npos) {
+		if (containsEndChar(line)) {
 			noteText.pop_back();
 			break;
 		}
@@ -88,8 +88,12 @@ std::string FileBuilder::readText(std::ifstream& file) {
 	return noteText;
 }
 
+bool FileBuilder::containsEndChar(std::string line){
+	return line.find(END_CHAR) != std::string::npos;
+}
+
 std::string FileBuilder::toDateFormat(std::time_t time) {
-	const unsigned int maxChar = 40;
+	const unsigned int maxChar = 20;
 	char date[maxChar];
 	std::strftime(date, sizeof(date), "%Y.%m.%d %H:%M:%S", std::localtime(&time));
 	return std::string(date);
@@ -106,17 +110,16 @@ std::time_t FileBuilder::fromDateFormat(std::string str) {
 }
 
 
-bool FileBuilder::toFile(TextNoteCollection* collection, std::string path) {
+void FileBuilder::toFile(TextNoteCollection* collection, std::string path) {
 	std::ofstream file = createFile(collection->title(), path);
 	writeCreationTime(file, collection->creation_time());
 	writeTitle(file, collection->title());
 	writeCollectionNotes(file, collection);
-	return false;
 }
 
 void FileBuilder::writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection) {
 	for (std::size_t i = 0; i < collection->size(); i++) {
-		TextNote note = collection->getNote(i);
+		TextNote note = collection->get(i);
 		writeNote(file, &note);
 	}
 }

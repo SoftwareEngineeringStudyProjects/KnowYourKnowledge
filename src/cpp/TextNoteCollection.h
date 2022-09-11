@@ -15,9 +15,9 @@ public:
 	TextNoteCollection(std::string title, std::time_t creation_time);
 	virtual ~TextNoteCollection();
 
-	void add(TextNote note);
-	void remove(TextNote note);
-	TextNote getNote(std::size_t num) const;
+	TextNoteCollection* add(TextNote note);
+	//TODO: void remove();
+	TextNote get(std::size_t num) const;
 	std::string title() const;
 	std::time_t creation_time() const;
 	std::string creation_time_string() const;

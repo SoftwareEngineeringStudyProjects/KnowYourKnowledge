@@ -9,23 +9,15 @@
 #define FILEBUILDER_H_
 
 #include <fstream>
-
-#include "TextNote.h"
 #include "TextNoteCollection.h"
 #include <ctime>
 
-/*
- * File format is the following:
- * line 0: title
- * line 1: creation time (as time_t)
- * the rest is the text message of the note
- */
 
 class FileBuilder {
 public:
-	static bool toFile(TextNote* note, std::string path = "");
+	static void toFile(TextNote* note, std::string path = "");
 	static TextNote fromFile(std::string filename);
-	static bool toFile(TextNoteCollection* collection, std::string path = "");
+	static void toFile(TextNoteCollection* collection, std::string path = "");
 	static TextNoteCollection collectionFromFile(std::string filename);
 	static std::string toDateFormat(std::time_t time);
 	static std::time_t fromDateFormat(std::string str);
@@ -45,13 +37,11 @@ private:
 	static std::string readTitle(std::ifstream& file);
 	static std::time_t readCreationTime(std::ifstream& file);
 	static std::string readText(std::ifstream& file);
-	static int countBrackets(std::string str);
+
 	static void writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection);
 	static void readCollectionNotes(std::ifstream& file, TextNoteCollection& collection);
 
-
-
-
+	static bool containsEndChar(std::string line);
 
 };
 
