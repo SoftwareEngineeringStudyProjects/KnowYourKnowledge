@@ -41,6 +41,9 @@ private:
 
 	static void writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection);
 	static void readCollectionNotes(std::ifstream& file, TextNoteCollection& collection);
+
+	static void addEmptyLineCharIfEmpty(std::string& line);
+	static void removeEmptyLineCharIfExtra(std::string& line);
 };
 
 

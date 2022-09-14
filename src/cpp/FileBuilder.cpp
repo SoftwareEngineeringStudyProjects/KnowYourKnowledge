@@ -42,18 +42,21 @@
 
 	 while (std::getline(s, line)) {
 
-		 int i = 0;
-		 while(line[i] == EMPTY_LINE_CHAR) {
-			i++;
-		 }
-		 if (line[i] == '\0') {
-			 line += EMPTY_LINE_CHAR;
-		 }
+		 addEmptyLineCharIfEmpty(line);
 		 file << line << "\n";
 	 }
+
 	 file << "\n";
  }
-
+void FileBuilder::addEmptyLineCharIfEmpty(std::string& line) {
+	 int i = 0;
+	 while(line[i] == EMPTY_LINE_CHAR) {
+		i++;
+	 }
+	 if (line[i] == '\0') {
+		 line += EMPTY_LINE_CHAR;
+	 }
+}
 TextNote FileBuilder::fromFile(std::string filename){
 	 std::ifstream file = openFile(filename);
 	 TextNote note = initTextNote(file);
@@ -97,19 +100,21 @@ std::string FileBuilder::readText(std::ifstream& file) {
 		if (line.empty()) {
 			break;
 		}
-		int i = 0;
-		while (line[i] == EMPTY_LINE_CHAR) {
-			i++;
-		}
-		if (line[i] == '\0') {
-			line.pop_back();
-		}
+		removeEmptyLineCharIfExtra(line);
 		noteText += line;
 		noteText += "\n";
 	}
 	return noteText;
 }
-
+void FileBuilder::removeEmptyLineCharIfExtra(std::string& line) {
+	int i = 0;
+	while (line[i] == EMPTY_LINE_CHAR) {
+		i++;
+	}
+	if (line[i] == '\0') {
+		line.pop_back();
+	}
+}
 
 std::string FileBuilder::toDateFormat(std::time_t time) {
 	const unsigned int maxChar = 20;
