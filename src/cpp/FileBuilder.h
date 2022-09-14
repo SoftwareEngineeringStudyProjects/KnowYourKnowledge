@@ -7,9 +7,10 @@
 
 #ifndef FILEBUILDER_H_
 #define FILEBUILDER_H_
+#include "TextNoteCollection.h"
 
 #include <fstream>
-#include "TextNoteCollection.h"
+#include <sstream>
 #include <ctime>
 
 
@@ -24,7 +25,7 @@ public:
 	static std::string getFileName(std::string name, std::string path = "");
 private:
 	static constexpr const char* TEXT_FILE_EXTENSION = "txt";
-	static constexpr char END_CHAR = -3;
+	static constexpr char EMPTY_LINE_CHAR = '`';
 
 	static std::ofstream createFile(std::string name, std::string path);
 	static void writeNote(std::ofstream& file, TextNote* note);
@@ -40,9 +41,6 @@ private:
 
 	static void writeCollectionNotes(std::ofstream& file, TextNoteCollection* collection);
 	static void readCollectionNotes(std::ifstream& file, TextNoteCollection& collection);
-
-	static bool containsEndChar(std::string line);
-
 };
 
 

@@ -30,9 +30,6 @@ std::string TextNote::text() const {
 std::string TextNote::creation_time_string() const {
 	return std::asctime(std::localtime(&_creation_time));
 }
-std::time_t TextNote::creation_time() const {
-	return _creation_time;
-}
 
 void TextNote::print() const {
 	std::cout<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string()<<std::endl;

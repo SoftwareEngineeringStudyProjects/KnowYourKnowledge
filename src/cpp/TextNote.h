@@ -12,7 +12,7 @@
 #include <string>
 #include <iostream>
 class TextNote {
-
+	friend class FileBuilder;
 public:
 	TextNote(std::string title, std::string text = "");
 	TextNote(std::string title, std::string text, std::time_t creation_time);

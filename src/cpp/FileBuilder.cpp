@@ -17,7 +17,7 @@
  }
 
  void FileBuilder::writeNote(std::ofstream& file, TextNote* note) {
-	 writeCreationTime(file, note->creation_time());
+	 writeCreationTime(file, note->_creation_time);
 	 writeTitle(file, note->title());
 	 writeText(file, note);
  }
@@ -35,7 +35,23 @@
  	 file << toDateFormat(creation_time) << "\n";
  }
  void FileBuilder::writeText(std::ofstream& file, TextNote* note) {
-	 file << note->text() << END_CHAR << "\n";
+	 std::string line;
+	 std::stringstream s;
+
+	 s << note->text();
+
+	 while (std::getline(s, line)) {
+
+		 int i = 0;
+		 while(line[i] == EMPTY_LINE_CHAR) {
+			i++;
+		 }
+		 if (line[i] == '\0') {
+			 line += EMPTY_LINE_CHAR;
+		 }
+		 file << line << "\n";
+	 }
+	 file << "\n";
  }
 
 TextNote FileBuilder::fromFile(std::string filename){
@@ -78,19 +94,22 @@ std::string FileBuilder::readText(std::ifstream& file) {
 	std::string noteText;
 
 	while (std::getline(file, line)) {
-		noteText += line;
-		if (containsEndChar(line)) {
-			noteText.pop_back();
+		if (line.empty()) {
 			break;
 		}
+		int i = 0;
+		while (line[i] == EMPTY_LINE_CHAR) {
+			i++;
+		}
+		if (line[i] == '\0') {
+			line.pop_back();
+		}
+		noteText += line;
 		noteText += "\n";
 	}
 	return noteText;
 }
 
-bool FileBuilder::containsEndChar(std::string line){
-	return line.find(END_CHAR) != std::string::npos;
-}
 
 std::string FileBuilder::toDateFormat(std::time_t time) {
 	const unsigned int maxChar = 20;

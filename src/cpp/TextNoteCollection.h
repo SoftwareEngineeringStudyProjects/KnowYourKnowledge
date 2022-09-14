@@ -1,7 +1,7 @@
 /*
  * TextNoteCollection.h
  *
- *  Created on: 10 Sep. 2022
+ *  Created on: 10 Sep 2022
  *      Author: MouseCreator
  */
 
