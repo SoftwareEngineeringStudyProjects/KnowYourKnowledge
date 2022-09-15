@@ -22,6 +22,8 @@ int main() {
 	config.set("current_collection", "Another");
 	std::cout<<config.get("current_collection")<<std::endl;
 
+	config.write_to_file("config.txt");
+
 	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
 	/*

@@ -16,6 +16,8 @@ public:
 	Config();
 	std::string get(std::string key) const;
 	void set(std::string key, std::string value);
+	void read_from_file(std::string filename);
+	void write_to_file(std::string filename);
 private:
 	std::unordered_map<std::string, std::string> items_;
 };
