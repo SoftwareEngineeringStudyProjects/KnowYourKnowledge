@@ -19,10 +19,17 @@ int main() {
 	config.set("current_collection", "MyNotes");
 	std::cout<<config.get("current_collection")<<std::endl;
 
-	config.set("current_collection", "Another");
+	config.set("current_collection", "Another with space");
 	std::cout<<config.get("current_collection")<<std::endl;
+	config.set("something","anything");
+	std::cout<<config.get("something")<<std::endl;
 
 	config.write_to_file("config.txt");
+
+	Config config2;
+	config2.read_from_file("config.txt");
+	std::cout<<config2.get("current_collection")<<std::endl;
+	std::cout<<config2.get("something")<<std::endl;
 
 	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 

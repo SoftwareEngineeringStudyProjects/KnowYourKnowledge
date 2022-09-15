@@ -21,12 +21,23 @@ void Config::set(std::string key, std::string value) {
 	items_[key] = value;
 }
 
+void parse_key_value(std::string line, std::string& key, std::string& value) {
+	auto delimiter_position = line.find("=");
+	key = line.substr(0, delimiter_position);
+	value = line.substr(delimiter_position+1);
+}
+
 void Config::read_from_file(std::string filename) {
 	  std::ifstream infile;
 	  std::string line;
 	  infile.open (filename);
 	  if ( infile.is_open() ) {
-		  infile >> line;
+		  while(getline(infile, line)) {
+			  std::string key;
+			  std::string value;
+			  parse_key_value(line, key, value);
+			  items_[key] = value;
+		  }
 	  }
 	  infile.close();
 }
