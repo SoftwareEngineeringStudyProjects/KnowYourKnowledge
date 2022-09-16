@@ -59,3 +59,9 @@ TEST_CASE("Set and get config data") {
 	config.set("current_collection", "MyNotes");
 	CHECK(config.get("current_collection") == "MyNotes");
 }
+
+TEST_CASE("Get non-existing key should throw exception") {
+	Config config;
+	config.set("current_collection", "MyNotes");
+	CHECK_THROWS_AS(config.get("non_existing"), std::out_of_range);
+}
