@@ -8,12 +8,35 @@
 #include "Config.h"
 #include "TextNote.h"
 
+#define DOCTEST_CONFIG_IMPLEMENT
+#include "doctest.h"
+
 #include <iostream>
 
-int main() {
+int main(int argc, char** argv) {
+
+    doctest::Context context;
+
+    context.applyCommandLine(argc, argv);
+
+    int res = context.run(); // run
+
+    if(context.shouldExit()) {// important - query flags (and --exit) rely on the user doing this
+        return res;          // propagate the result of the tests
+    }
+
+    int client_stuff_return_code = 0;
+    // your program - if the testing framework is integrated in your production code
+
+
+
+
+
 	std::cout<<"123"<<std::endl;
 	TextNote note("hello");
 	std::cout<<"title="<<note.title()<<", text="<<note.text()<<",created="<<note.creation_time_string()<<std::endl;
+
+	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
 	Config config;
 	config.set("current_collection", "MyNotes");
@@ -31,22 +54,10 @@ int main() {
 	std::cout<<config2.get("current_collection")<<std::endl;
 	std::cout<<config2.get("something")<<std::endl;
 
-	// TextNote wrong(""); // FAILS: assertion failure (empty title)
 
-	/*
-	 *
-int main () {
-  ofstream myfile;
-  myfile.open ("ourfile.txt");
-  if ( myfile.is_open() ) {
-myfile >> mystring;
-cout << mystring;
-  myfile.close();
-  return 0;
-}
-	 *
-	 */
 
-	return 0;
+
+
+	return res + client_stuff_return_code; // the result from doctest is propagated here as well
 }
 
