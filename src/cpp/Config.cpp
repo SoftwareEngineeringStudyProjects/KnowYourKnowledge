@@ -6,6 +6,9 @@
  */
 
 #include "Config.h"
+
+#include "doctest.h"
+
 #include <fstream>
 
 Config::Config() {
@@ -49,4 +52,10 @@ void Config::write_to_file(std::string filename) {
 		outfile<<key<<"="<<value<<std::endl;
 	}
 	outfile.close();
+}
+
+TEST_CASE("Set and get config data") {
+	Config config;
+	config.set("current_collection", "MyNotes");
+	CHECK(config.get("current_collection") == "MyNotes");
 }
