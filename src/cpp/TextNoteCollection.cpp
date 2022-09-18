@@ -6,7 +6,7 @@
  */
 
 #include "TextNoteCollection.h"
-
+#include <cassert>
 TextNoteCollection::TextNoteCollection(std::string title, std::time_t creation_time):
 _title(title), _creation_time(creation_time){}
 TextNoteCollection::TextNoteCollection(std::string title):
@@ -29,6 +29,10 @@ std::size_t TextNoteCollection::size() const {
 TextNoteCollection* TextNoteCollection::add(TextNote note)  {
 	notes.emplace_back(note);
 	return this;
+}
+void TextNoteCollection::remove(std::size_t num) {
+	assert(num < notes.size());
+	notes.erase(notes.begin() + num);
 }
 TextNote TextNoteCollection::get(std::size_t num) const{
 	return notes[num];
