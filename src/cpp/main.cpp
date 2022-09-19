@@ -7,10 +7,10 @@
 
 #include "Config.h"
 #include "TextNote.h"
+#include "FileBuilder.h"
 
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
-
 #include <iostream>
 
 int main(int argc, char** argv) {
@@ -32,27 +32,39 @@ int main(int argc, char** argv) {
 
 
 
-	std::cout<<"123"<<std::endl;
-	TextNote note("hello");
-	std::cout<<"title="<<note.title()<<", text="<<note.text()<<",created="<<note.creation_time_string()<<std::endl;
+    std::cout<<"123"<<std::endl;
+    TextNote note("hello");
+    note.print();
 
-	// TextNote wrong(""); // FAILS: assertion failure (empty title)
+    // TextNote wrong(""); // FAILS: assertion failure (empty title)
 
-	Config config;
-	config.set("current_collection", "MyNotes");
-	std::cout<<config.get("current_collection")<<std::endl;
+    TextNote note2("test1", "``Message``");
+    TextNote note3("test2", "```");
+    TextNote note4("test3", "Message\n\nwith newlines\n");
 
-	config.set("current_collection", "Another with space");
-	std::cout<<config.get("current_collection")<<std::endl;
-	config.set("something","anything");
-	std::cout<<config.get("something")<<std::endl;
+    TextNoteCollection collection("test");
+    collection.add(note)->add(note2)->add(note3)->add(note4);
+    FileBuilder::toFile(&collection);
 
-	config.write_to_file("config.txt");
 
-	Config config2;
-	config2.read_from_file("config.txt");
-	std::cout<<config2.get("current_collection")<<std::endl;
-	std::cout<<config2.get("something")<<std::endl;
+    TextNoteCollection collection2 = FileBuilder::collectionFromFile("test");
+    collection2.print();
+
+    Config config;
+    config.set("current_collection", "MyNotes");
+    std::cout<<config.get("current_collection")<<std::endl;
+
+    config.set("current_collection", "Another with space");
+    std::cout<<config.get("current_collection")<<std::endl;
+    config.set("something","anything");
+    std::cout<<config.get("something")<<std::endl;
+
+    config.write_to_file("config.txt");
+
+    Config config2;
+    config2.read_from_file("config.txt");
+    std::cout<<config2.get("current_collection")<<std::endl;
+    std::cout<<config2.get("something")<<std::endl;
 
 
 

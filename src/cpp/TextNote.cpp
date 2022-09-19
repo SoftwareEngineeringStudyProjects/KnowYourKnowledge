@@ -15,6 +15,10 @@ TextNote::TextNote(std::string title, std::string text): _title{title}, _text{te
 
 }
 
+TextNote::TextNote(std::string title, std::string text, std::time_t creation_time):
+		_title(title), _text(text), _creation_time(creation_time){}
+
+
 std::string TextNote::title() const {
 	return _title;
 }
@@ -25,4 +29,8 @@ std::string TextNote::text() const {
 
 std::string TextNote::creation_time_string() const {
 	return std::asctime(std::localtime(&_creation_time));
+}
+
+void TextNote::print() const {
+	std::cout<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string()<<std::endl;
 }
