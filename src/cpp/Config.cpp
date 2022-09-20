@@ -48,10 +48,15 @@ void Config::read_from_file(std::string filename) {
 void Config::write_to_file(std::string filename) {
 	std::ofstream outfile;
 	outfile.open(filename);
-	for(const auto & [ key, value ] : items_) {
-		outfile<<key<<"="<<value<<std::endl;
-	}
+	outfile<<*this;
 	outfile.close();
+}
+
+std::ostream& operator<<(std::ostream& out, const Config& config) {
+	for(const auto & [ key, value ] : config.items_) {
+		out<<key<<"="<<value<<std::endl;
+	}
+	return out;
 }
 
 TEST_CASE("Set and get config data") {

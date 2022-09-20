@@ -8,6 +8,7 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+#include <ostream>
 #include <string>
 #include <unordered_map>
 
@@ -20,6 +21,7 @@ public:
 	void write_to_file(std::string filename);
 private:
 	std::unordered_map<std::string, std::string> items_;
+friend std::ostream& operator<<(std::ostream& out, const Config& config);
 };
 
 #endif /* CONFIG_H_ */
