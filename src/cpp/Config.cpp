@@ -82,6 +82,6 @@ TEST_CASE("Output config to stream") {
 
     std::stringstream out;
     out<<config;
-    CHECK(out.str() == "something=anything\ncurrent_collection=Another with space\n");
+    CHECK(out.str() == "current_collection=Another with space\nsomething=anything\n");
 
 }

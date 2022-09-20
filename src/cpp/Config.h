@@ -10,7 +10,7 @@
 
 #include <ostream>
 #include <string>
-#include <unordered_map>
+#include <map>
 
 class Config {
 public:
@@ -20,7 +20,7 @@ public:
 	void read_from_file(std::string filename);
 	void write_to_file(std::string filename);
 private:
-	std::unordered_map<std::string, std::string> items_;
+	std::map<std::string, std::string> items_;
 friend std::ostream& operator<<(std::ostream& out, const Config& config);
 };
 
