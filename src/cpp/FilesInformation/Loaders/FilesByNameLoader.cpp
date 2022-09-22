@@ -40,12 +40,12 @@ TEST_CASE("Extension with several dots") {
 
 TEST_CASE("Existing file") {
     FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("/Users/dklishch/CLionProjects/KnowYourKnowledgeMyFork/resources/text.txt");
+    File file = loader->loadFile("resources/text.txt");
     CHECK(file.exists());
 }
 
 TEST_CASE("Non Existing file") {
     FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("/Users/dklishch/CLionProjects/KnowYourKnowledgeMyFork/resources/text.txt.txt.txt");
+    File file = loader->loadFile("resources/text.txt.txt.txt");
     CHECK(!file.exists());
 }
