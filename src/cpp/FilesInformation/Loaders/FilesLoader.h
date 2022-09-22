@@ -7,7 +7,6 @@
 
 
 #include "FilesInformation/File.h"
-#include "doctest.h"
 
 class FilesLoader {
 public:
