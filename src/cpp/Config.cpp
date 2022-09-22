@@ -91,3 +91,15 @@ TEST_CASE("Output config to stream") {
     CHECK(out.str() == "current_collection=Another with space\nsomething=anything\n");
 
 }
+
+TEST_CASE("Input config from stream") {
+	Config config;
+
+	std::stringstream in{"current_collection=Another with space\nsomething=anything\n"};
+	in>>config;
+
+	CHECK(config.get("current_collection") == "Another with space");
+	CHECK(config.get("something") == "anything");
+
+
+}
