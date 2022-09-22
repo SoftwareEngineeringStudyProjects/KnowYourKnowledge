@@ -12,10 +12,12 @@ File FilesByNameLoader::loadFile(const std::string &filepath) {
 }
 
 std::string FilesByNameLoader::getFileName(const std::string &filepath) {
-    size_t slash = filepath.find_last_of('/');
+    size_t slash = filepath.find_last_of(_separator);
     if (slash == -1) return {filepath};
     return filepath.substr(slash + 1);
 }
+
+FilesByNameLoader::FilesByNameLoader(const std::string &separator) : _separator(separator) {}
 
 TEST_CASE("Full file path") {
     FilesLoader *loader = new FilesByNameLoader();

@@ -13,8 +13,13 @@ class FilesByNameLoader : public FilesLoader {
 public:
     File loadFile(const std::string &filepath) override;
 
+    FilesByNameLoader(const std::string &separator = "/");
+
+    std::string separator() const;
+
 private:
-    static std::string getFileName(const std::string &filepath);
+    std::string getFileName(const std::string &filepath);
+    std::string _separator;
 };
 
 
