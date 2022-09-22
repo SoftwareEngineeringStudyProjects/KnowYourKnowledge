@@ -16,11 +16,9 @@ std::string File::extension() const {
 }
 
 
-File::File(std::string filepath, std::string filename, std::string extension) : _filepath(std::move(filepath)),
-                                                                                _extension(std::move(extension)),
-                                                                                _filename(std::move(filename)) {
-
-}
+File::File(const std::string &filepath, const std::string & filename, const std::string &extension) : _filepath(filepath),
+                                                                                                      _extension(extension),
+                                                                                                      _filename(filename) {}
 
 std::string File::filepath() const {
     return _filepath;
