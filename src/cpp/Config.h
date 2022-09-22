@@ -8,6 +8,7 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+#include <istream>
 #include <ostream>
 #include <string>
 #include <map>
@@ -22,6 +23,7 @@ public:
 private:
 	std::map<std::string, std::string> items_;
 friend std::ostream& operator<<(std::ostream& out, const Config& config);
+friend std::istream& operator>>(std::istream& in, Config& config);
 };
 
 #endif /* CONFIG_H_ */
