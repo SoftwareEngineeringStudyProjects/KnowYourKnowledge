@@ -20,34 +20,34 @@ std::string FilesByNameLoader::getFileName(const std::string &filepath) {
 FilesByNameLoader::FilesByNameLoader(const std::string &separator) : _separator(separator) {}
 
 TEST_CASE("Full file path") {
-    FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("C:/a/b/c/file.txt");
+    FilesByNameLoader loader = FilesByNameLoader();
+    File file = loader.loadFile("C:/a/b/c/file.txt");
     CHECK(file.filename() == "file");
     CHECK(file.extension() == "txt");
 }
 
 TEST_CASE("Just file name") {
-    FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("file.txt");
+    FilesByNameLoader loader = FilesByNameLoader();
+    File file = loader.loadFile("file.txt");
     CHECK(file.filename() == "file");
     CHECK(file.extension() == "txt");
 }
 
 TEST_CASE("Extension with several dots") {
-    FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("C:/sd/fd/f/file.txt.txt");
+    FilesByNameLoader loader = FilesByNameLoader();
+    File file = loader.loadFile("C:/sd/fd/f/file.txt.txt");
     CHECK(file.filename() == "file");
     CHECK(file.extension() == "txt.txt");
 }
 
 TEST_CASE("Existing file") {
-    FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("resources/text.txt");
+    FilesByNameLoader loader = FilesByNameLoader();
+    File file = loader.loadFile("resources/text.txt");
     CHECK(file.exists());
 }
 
 TEST_CASE("Non Existing file") {
-    FilesLoader *loader = new FilesByNameLoader();
-    File file = loader->loadFile("resources/text.txt.txt.txt");
+    FilesByNameLoader loader = FilesByNameLoader();
+    File file = loader.loadFile("resources/text.txt.txt.txt");
     CHECK(!file.exists());
 }
