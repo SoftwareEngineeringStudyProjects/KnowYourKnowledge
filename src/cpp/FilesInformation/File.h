@@ -20,6 +20,8 @@ public:
 
     bool exists() const;
 
+    bool is_text_file() const;
+
 private:
     std::string _filename;
     std::string _extension;

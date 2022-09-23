@@ -28,3 +28,7 @@ bool File::exists() const {
     std::fstream file(_filepath.c_str());
     return file.good();
 }
+
+bool File::is_text_file() const {
+    return _extension == "txt";
+}
