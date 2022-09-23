@@ -18,7 +18,7 @@ public:
 
     std::string filepath() const;
 
-    bool exists();
+    bool exists() const;
 
 private:
     std::string _filename;

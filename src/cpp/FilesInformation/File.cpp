@@ -24,7 +24,7 @@ std::string File::filepath() const {
     return _filepath;
 }
 
-bool File::exists() {
+bool File::exists() const {
     std::fstream file(_filepath.c_str());
     return file.good();
 }
