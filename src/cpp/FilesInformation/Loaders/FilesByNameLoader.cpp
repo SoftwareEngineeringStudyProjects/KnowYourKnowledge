@@ -26,6 +26,13 @@ TEST_CASE("Full file path") {
     CHECK(file.extension() == "txt");
 }
 
+TEST_CASE("Full file path with Windows separator") {
+    FilesByNameLoader loader = FilesByNameLoader("\\");
+    File file = loader.loadFile("C:\\a\\b\\c\\file.txt");
+    CHECK(file.filename() == "file");
+    CHECK(file.extension() == "txt");
+}
+
 TEST_CASE("Just file name") {
     FilesByNameLoader loader = FilesByNameLoader();
     File file = loader.loadFile("file.txt");
@@ -36,6 +43,13 @@ TEST_CASE("Just file name") {
 TEST_CASE("Extension with several dots") {
     FilesByNameLoader loader = FilesByNameLoader();
     File file = loader.loadFile("C:/sd/fd/f/file.txt.txt");
+    CHECK(file.filename() == "file");
+    CHECK(file.extension() == "txt.txt");
+}
+
+TEST_CASE("Extension with several dots with Windows separator") {
+    FilesByNameLoader loader = FilesByNameLoader("\\");
+    File file = loader.loadFile("C:\\sd\\fd\\f\\file.txt.txt");
     CHECK(file.filename() == "file");
     CHECK(file.extension() == "txt.txt");
 }
