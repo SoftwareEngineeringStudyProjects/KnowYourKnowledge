@@ -34,3 +34,7 @@ bool File::exists() const {
 bool File::is_text_file() const {
     return _is_text_file;
 }
+
+std::string File::full_filename() const {
+    return _filename + _extension;
+}

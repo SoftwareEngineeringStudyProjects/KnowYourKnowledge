@@ -19,6 +19,8 @@ public:
 
     std::string filepath() const;
 
+    std::string full_filename() const;
+
     bool exists() const;
 
     bool is_text_file() const;
