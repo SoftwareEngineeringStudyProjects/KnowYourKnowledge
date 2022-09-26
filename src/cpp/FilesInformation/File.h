@@ -7,8 +7,9 @@
 
 
 #include <string>
+#include "KnowledgeItem.h"
 
-class File {
+class File : public KnowledgeItem {
 public:
     File(const std::string &filepath, const std::string &filename, const std::string &extension, bool is_text_file);
 
