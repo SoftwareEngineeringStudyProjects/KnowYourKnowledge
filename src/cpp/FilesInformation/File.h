@@ -10,7 +10,7 @@
 
 class File {
 public:
-    File(const std::string &filepath, const std::string &filename, const std::string &extension);
+    File(const std::string &filepath, const std::string &filename, const std::string &extension, bool is_text_file);
 
     std::string filename() const;
 
@@ -26,6 +26,7 @@ private:
     std::string _filename;
     std::string _extension;
     std::string _filepath;
+    bool _is_text_file;
 };
 
 

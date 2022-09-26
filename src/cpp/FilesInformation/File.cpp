@@ -16,9 +16,11 @@ std::string File::extension() const {
 }
 
 
-File::File(const std::string &filepath, const std::string & filename, const std::string &extension) : _filepath(filepath),
-                                                                                                      _extension(extension),
-                                                                                                      _filename(filename) {}
+File::File(const std::string &filepath, const std::string & filename, const std::string &extension, bool is_text_file) : _filepath(filepath),
+                                                                                                                         _extension(extension),
+                                                                                                                         _filename(filename),
+                                                                                                                         _is_text_file(is_text_file) {
+}
 
 std::string File::filepath() const {
     return _filepath;
@@ -30,5 +32,5 @@ bool File::exists() const {
 }
 
 bool File::is_text_file() const {
-    return _extension == "txt";
+    return _is_text_file;
 }
