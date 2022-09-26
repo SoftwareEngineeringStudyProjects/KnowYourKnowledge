@@ -8,6 +8,8 @@
 
 #include "FilesLoader.h"
 #include "doctest.h"
+#include "EncodingDetector/text_encoding_detect.h"
+#include <fstream>
 
 class FilesByNameLoader : public FilesLoader {
 public:
@@ -18,8 +20,11 @@ public:
     std::string separator() const;
 
 private:
-    std::string getFileName(const std::string &filepath);
     std::string _separator;
+
+    std::string getFileName(const std::string &filepath);
+
+    bool isTextFile(const std::string &filepath);
 };
 
 
