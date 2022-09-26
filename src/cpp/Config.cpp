@@ -36,12 +36,7 @@ void Config::read_from_file(std::string filename) {
 	  std::string line;
 	  infile.open (filename);
 	  if ( infile.is_open() ) {
-		  while(getline(infile, line)) {
-			  std::string key;
-			  std::string value;
-			  parse_key_value(line, key, value);
-			  items_[key] = value;
-		  }
+		  infile >> *this;
 	  }
 	  infile.close();
 }
@@ -58,6 +53,17 @@ std::ostream& operator<<(std::ostream& out, const Config& config) {
 		out<<key<<"="<<value<<std::endl;
 	}
 	return out;
+}
+
+std::istream& operator>>(std::istream &in, Config &config) {
+	std::string line;
+	while (getline(in, line)) {
+		std::string key;
+		std::string value;
+		parse_key_value(line, key, value);
+		config.items_[key] = value;
+	}
+	return in;
 }
 
 TEST_CASE("Set and get config data") {
@@ -83,5 +89,17 @@ TEST_CASE("Output config to stream") {
     std::stringstream out;
     out<<config;
     CHECK(out.str() == "current_collection=Another with space\nsomething=anything\n");
+
+}
+
+TEST_CASE("Input config from stream") {
+	Config config;
+
+	std::stringstream in{"current_collection=Another with space\nsomething=anything\n"};
+	in>>config;
+
+	CHECK(config.get("current_collection") == "Another with space");
+	CHECK(config.get("something") == "anything");
+
 
 }
