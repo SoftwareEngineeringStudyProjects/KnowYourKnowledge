@@ -1,9 +1,8 @@
 //
 // Created by Dmytro Klishch on 9/22/22.
 //
-
-#include <vector>
 #include "FilesByNameLoader.h"
+#include "../../doctest.h"
 
 
 File FilesByNameLoader::loadFile(const std::string &filepath) {
@@ -21,9 +20,7 @@ std::string FilesByNameLoader::getFileName(const std::string &filepath) {
 
 FilesByNameLoader::FilesByNameLoader(const std::string &separator) : _separator(separator) {}
 
-char* loadBuffer(std::fstream &file, int maximalSize = 4000) {
-    file.seekg(0, file.end);
-    int size = std::min(maximalSize, (int) file.tellg());
+char* loadBuffer(std::fstream &file, int size) {
     char *buffer = new char[size];
     file.seekg(0, file.beg);
     file.read(buffer, size);
@@ -34,7 +31,10 @@ bool FilesByNameLoader::isTextFile(const std::string &filepath) {
     std::fstream file(filepath, std::ios_base::binary | std::ios_base::in);
     if (!file.is_open()) return false;
 
-    char* buffer = loadBuffer(file);
+    file.seekg(0, file.end);
+    int size = std::min(4000, (int) file.tellg());
+
+    char* buffer = loadBuffer(file, size);
 
     AutoIt::Common::TextEncodingDetect::Encoding encoding = AutoIt::Common::TextEncodingDetect().DetectEncoding(buffer, size);
     return encoding != AutoIt::Common::TextEncodingDetect::None;
@@ -77,19 +77,19 @@ TEST_CASE("Extension with several dots with Windows separator") {
 
 TEST_CASE("Existing file") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File file = loader.loadFile("resources/text.txt");
+    File file = loader.loadFile("../../../../resources/text.txt");
     CHECK(file.exists());
 }
 
 TEST_CASE("Existing text file is text check") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File file = loader.loadFile("resources/text.txt");
+    File file = loader.loadFile("../../../../resources/text.txt");
     CHECK(file.is_text_file());
 }
 
 TEST_CASE("Existing binary file is text check") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File file = loader.loadFile("resources/binary.bin");
+    File file = loader.loadFile("../../../../resources/binary.bin");
     CHECK(!file.is_text_file());
 }
 

@@ -7,7 +7,6 @@
 
 
 #include "FilesLoader.h"
-#include "doctest.h"
 #include "EncodingDetector/text_encoding_detect.h"
 #include <fstream>
 

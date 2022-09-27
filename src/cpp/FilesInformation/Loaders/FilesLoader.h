@@ -6,7 +6,7 @@
 #define KNOWYOURKNOWLEDGEMYFORK_FILESLOADER_H
 
 
-#include "FilesInformation/File.h"
+#include "../File.h"
 
 class FilesLoader {
 public:

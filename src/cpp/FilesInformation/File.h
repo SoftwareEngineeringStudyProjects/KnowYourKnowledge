@@ -7,7 +7,7 @@
 
 
 #include <string>
-#include "KnowledgeItem.h"
+#include "../KnowledgeItem.h"
 
 class File : public KnowledgeItem {
 public:
