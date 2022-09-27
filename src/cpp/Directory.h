@@ -18,6 +18,7 @@ public:
 	virtual ~Directory();
 
 	Directory& add(KnowledgeItem* item);
+	std::ostream& output(std::ostream &out) override;
 
 private:
 	std::vector<KnowledgeItem*> items_;

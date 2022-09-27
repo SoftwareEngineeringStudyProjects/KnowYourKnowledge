@@ -19,3 +19,15 @@ Directory& Directory::Directory::add(KnowledgeItem *item) {
 	items_.push_back(item);
 	return *this;
 }
+
+std::ostream& Directory::output(std::ostream &out) {
+	KnowledgeItem::output(out);
+
+	for(KnowledgeItem* item: items_) {
+		item->output(out);
+	}
+
+	return out;
+}
+
+
