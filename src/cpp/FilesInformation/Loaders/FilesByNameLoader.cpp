@@ -77,19 +77,19 @@ TEST_CASE("Extension with several dots with Windows separator") {
 
 TEST_CASE("Existing file") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File file = loader.loadFile("../../../../resources/text.txt");
+    File file = loader.loadFile("resources/text.txt");
     CHECK(file.exists());
 }
 
 TEST_CASE("Existing text file is text check") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File file = loader.loadFile("../../../../resources/text.txt");
+    File file = loader.loadFile("resources/text.txt");
     CHECK(file.is_text_file());
 }
 
 TEST_CASE("Existing binary file is text check") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File file = loader.loadFile("../../../../resources/binary.bin");
+    File file = loader.loadFile("resources/binary.bin");
     CHECK(!file.is_text_file());
 }
 
