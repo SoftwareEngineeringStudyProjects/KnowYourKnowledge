@@ -46,3 +46,16 @@ void TextNoteCollection::print() const{
 		notes[i].print();
 	}
 }
+
+TextNoteCollection *TextNoteCollection::addFromCLI(const std::string &title) {
+    std::string text, t;
+    std::cout << "Enter text of a new note:" << std::endl;
+    while (getline(std::cin, t) && !t.empty())
+    {
+        text += t;
+    }
+    std::time_t creation_time = std::time(nullptr);
+    TextNote note(title, text, creation_time);
+    this->add(note);
+    return this;
+}
