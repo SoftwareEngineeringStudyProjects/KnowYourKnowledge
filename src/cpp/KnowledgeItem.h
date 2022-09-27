@@ -8,6 +8,7 @@
 #ifndef KNOWLEDGEITEM_H_
 #define KNOWLEDGEITEM_H_
 
+#include <ostream>
 #include <string>
 #include <ctime>
 
@@ -19,6 +20,9 @@ public:
 	std::string title() const;
 	std::string creation_time_string() const;
 	std::time_t creation_time() const;
+
+	virtual std::ostream& output(std::ostream& out);
+
 protected:
 	std::string _title;
 	std::time_t _creation_time;
