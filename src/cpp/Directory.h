@@ -17,11 +17,11 @@ public:
 	Directory(const std::string& title);
 	virtual ~Directory();
 
-	Directory& add(KnowledgeItem* item);
+	Directory& add(KnowledgeItemPtr item);
 	std::ostream& output(std::ostream &out) override;
 
 private:
-	std::vector<KnowledgeItem*> items_;
+	std::vector<KnowledgeItemPtr> items_;
 };
 
 #endif /* DIRECTORY_H_ */

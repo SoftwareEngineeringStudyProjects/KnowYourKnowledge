@@ -28,4 +28,7 @@ protected:
 	std::time_t _creation_time;
 };
 
+//typedef KnowledgeItem* KnowledgeItemPtr;
+using KnowledgeItemPtr = KnowledgeItem*;
+
 #endif /* KNOWLEDGEITEM_H_ */
