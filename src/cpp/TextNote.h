@@ -20,6 +20,8 @@ public:
 	TextNote(std::string title, std::string text, std::time_t creation_time);
 	std::string text() const;
 	void print() const;
+	std::ostream& output(std::ostream &out) override;
+
 private:
 	std::string _text;
 };
