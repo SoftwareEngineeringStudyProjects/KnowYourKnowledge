@@ -31,7 +31,11 @@
 template<typename OutStreamT, typename ResultT = std::string>
 class StreamStorageSaver: public BaseStorageSaver {
 public:
-	StreamStorageSaver() {};
+	StreamStorageSaver(): real_stream{new OutStreamT}, outstream{*real_stream} {};
+	StreamStorageSaver(OutStreamT& out): real_stream{nullptr}, outstream{out} {};
+	~StreamStorageSaver() {
+		if (real_stream) { delete real_stream;}
+	}
 	void save(KnowledgeItemPtr item) override;
 
 	void save_title(const std::string &title) override;
@@ -39,8 +43,11 @@ public:
 
 	OutStreamT& underlying_stream() {return outstream;}
 
+
 private:
-	OutStreamT outstream;
+	OutStreamT* real_stream;
+	OutStreamT& outstream;
+
 
 };
 
