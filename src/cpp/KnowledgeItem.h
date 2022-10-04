@@ -8,6 +8,8 @@
 #ifndef KNOWLEDGEITEM_H_
 #define KNOWLEDGEITEM_H_
 
+#include "storage_base.h"
+
 #include <ostream>
 #include <string>
 #include <ctime>
@@ -22,8 +24,8 @@ public:
 	std::time_t creation_time() const;
 
 	virtual std::ostream& output(std::ostream& out);
-	template<typename StorageT>
-	void save_to(StorageT& storage);
+
+	virtual void save_to(BaseStorageSaver& storage) {};
 
 protected:
 	std::string _title;
@@ -33,9 +35,6 @@ protected:
 //typedef KnowledgeItem* KnowledgeItemPtr;
 using KnowledgeItemPtr = KnowledgeItem*;
 
-template<typename StorageT>
-inline void KnowledgeItem::save_to(StorageT& storage) {
-	//TODO: somehown implement as non-virtual method, possibly using a separate virtual method
-}
+
 
 #endif /* KNOWLEDGEITEM_H_ */
