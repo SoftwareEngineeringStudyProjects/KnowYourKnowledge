@@ -14,6 +14,8 @@
 #include <string>
 #include <ctime>
 
+class BaseStorageSaver;
+
 class KnowledgeItem {
 public:
 	KnowledgeItem(std::string title);

@@ -8,6 +8,8 @@
 #ifndef STORAGE_H_
 #define STORAGE_H_
 
+
+#include "storage_base.h"
 #include "KnowledgeItem.h"
 
 #include <string>
@@ -27,10 +29,10 @@
 //};
 
 template<typename OutStreamT, typename ResultT = std::string>
-class StreamStorageSaver {
+class StreamStorageSaver: public BaseStorageSaver {
 public:
 	StreamStorageSaver() {};
-	void save(KnowledgeItemPtr item);
+	void save(KnowledgeItemPtr item) override {}
 private:
 	OutStreamT outstream;
 
