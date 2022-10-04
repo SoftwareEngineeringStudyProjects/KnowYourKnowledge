@@ -27,7 +27,7 @@ public:
 
 	virtual std::ostream& output(std::ostream& out);
 
-	virtual void save_to(BaseStorageSaver& storage) {};
+	virtual void save_to(BaseStorageSaver& storage);
 
 protected:
 	std::string _title;

@@ -32,11 +32,33 @@ template<typename OutStreamT, typename ResultT = std::string>
 class StreamStorageSaver: public BaseStorageSaver {
 public:
 	StreamStorageSaver() {};
-	void save(KnowledgeItemPtr item) override {}
+	void save(KnowledgeItemPtr item) override;
+
+	void save_title(const std::string &title) override;
+	void save_creation_time(Timestamp time) override;
+
+	OutStreamT& underlying_stream() {return outstream;}
+
 private:
 	OutStreamT outstream;
 
 };
 
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save(
+		KnowledgeItemPtr item) {
+	item->save_to(*this);
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_title(
+		const std::string &title) {
+	outstream<<title<<std::endl;
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_creation_time(Timestamp time) {
+	outstream<<time_to_string(time)<<std::endl;
+}
 
 #endif /* STORAGE_H_ */
