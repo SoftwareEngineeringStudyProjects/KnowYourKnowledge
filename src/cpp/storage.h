@@ -40,8 +40,10 @@ public:
 
 	void save_title(const std::string &title) override;
 	void save_creation_time(Timestamp time) override;
+    void save_multiline(const std::string& text) override;
 
 	OutStreamT& underlying_stream() {return outstream;}
+
 
 
 private:
@@ -66,6 +68,12 @@ inline void StreamStorageSaver<OutStreamT, ResultT>::save_title(
 template<typename OutStreamT, typename ResultT>
 inline void StreamStorageSaver<OutStreamT, ResultT>::save_creation_time(Timestamp time) {
 	outstream<<time_to_string(time)<<std::endl;
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_multiline(
+		const std::string &text) {
+	outstream<<text;
 }
 
 #endif /* STORAGE_H_ */
