@@ -20,6 +20,8 @@ public:
 	Directory& add(KnowledgeItemPtr item);
 	std::ostream& output(std::ostream &out) override;
 
+    size_t size() const;
+
 private:
 	std::vector<KnowledgeItemPtr> items_;
 };

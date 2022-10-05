@@ -7,10 +7,14 @@
 
 
 #include "../File.h"
+#include "../../Directory.h"
+#include <filesystem>
 
 class FilesLoader {
 public:
-    virtual File loadFile(const std::string &filepath) = 0;
+    virtual File *loadFile(const std::string &filepath) = 0;
+
+    Directory *loadDirectory(const std::string &filepath);
 };
 
 
