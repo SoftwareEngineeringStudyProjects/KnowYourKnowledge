@@ -32,6 +32,11 @@ std::ostream& TextNote::output(std::ostream &out) {
 	return out;
 }
 
+void TextNote::save_to(BaseStorageSaver &storage) {
+	KnowledgeItem::save_to(storage);
+	storage.save_multiline(text());
+}
+
 TEST_CASE("creating object with fixed creation time") {
 	//1663850154 = Thu Sep 22 15:35:54 2022
 	TextNote note("hello","this is text\ntext\n",1663850154);

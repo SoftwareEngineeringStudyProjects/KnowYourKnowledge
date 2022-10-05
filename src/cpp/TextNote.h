@@ -21,6 +21,7 @@ public:
 	std::string text() const;
 	void print() const;
 	std::ostream& output(std::ostream &out) override;
+	void save_to(BaseStorageSaver &storage) override;
 
 private:
 	std::string _text;

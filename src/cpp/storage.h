@@ -8,6 +8,8 @@
 #ifndef STORAGE_H_
 #define STORAGE_H_
 
+
+#include "storage_base.h"
 #include "KnowledgeItem.h"
 
 #include <string>
@@ -27,14 +29,51 @@
 //};
 
 template<typename OutStreamT, typename ResultT = std::string>
-class StreamStorageSaver {
+class StreamStorageSaver: public BaseStorageSaver {
 public:
-	StreamStorageSaver() {};
-	void save(KnowledgeItemPtr item);
+	StreamStorageSaver(): real_stream{new OutStreamT}, outstream{*real_stream} {};
+	StreamStorageSaver(OutStreamT& out): real_stream{nullptr}, outstream{out} {};
+	~StreamStorageSaver() {
+		if (real_stream) { delete real_stream;}
+	}
+	void save(KnowledgeItemPtr item) override;
+
+	void save_title(const std::string &title) override;
+	void save_creation_time(Timestamp time) override;
+    void save_multiline(const std::string& text) override;
+
+	OutStreamT& underlying_stream() {return outstream;}
+
+
+
 private:
-	OutStreamT outstream;
+	OutStreamT* real_stream;
+	OutStreamT& outstream;
+
 
 };
 
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save(
+		KnowledgeItemPtr item) {
+	item->save_to(*this);
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_title(
+		const std::string &title) {
+	outstream<<title<<std::endl;
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_creation_time(Timestamp time) {
+	outstream<<time_to_string(time)<<std::endl;
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_multiline(
+		const std::string &text) {
+	outstream<<text;
+}
 
 #endif /* STORAGE_H_ */
