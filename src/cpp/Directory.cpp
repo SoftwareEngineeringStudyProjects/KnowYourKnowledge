@@ -34,3 +34,11 @@ std::ostream &Directory::output(std::ostream &out) {
 size_t Directory::size() const {
     return items_.size();
 }
+
+KnowledgeItemPtr const&  Directory::operator[](size_t index) const {
+    return items_[index];
+}
+
+std::vector<KnowledgeItemPtr> Directory::items() const {
+    return items_;
+}

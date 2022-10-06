@@ -22,6 +22,10 @@ public:
 
     size_t size() const;
 
+    KnowledgeItemPtr const& operator[](size_t index) const;
+
+    std::vector<KnowledgeItemPtr> items() const;
+
 private:
 	std::vector<KnowledgeItemPtr> items_;
 };
