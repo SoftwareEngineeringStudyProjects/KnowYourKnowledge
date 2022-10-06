@@ -7,7 +7,7 @@
 
 Directory *FilesLoader::loadDirectory(const std::string &filepath) {
     Directory *directory = new Directory(filepath);
-    for (const auto &entry: std::__fs::filesystem::directory_iterator(filepath)) {
+    for (const auto &entry: std::filesystem::directory_iterator(filepath)) {
         if (entry.is_directory()) {
             directory->add(loadDirectory(entry.path()));
         } else {
