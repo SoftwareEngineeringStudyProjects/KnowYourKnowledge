@@ -109,17 +109,33 @@ TEST_CASE("Non Existing file") {
     delete file;
 }
 
-
-TEST_CASE("Empty directory") {
+TEST_CASE("Non Existing directory") {
     FilesByNameLoader loader;
-    Directory* directory = loader.loadDirectory("resources/empty_directory_test");
-    CHECK(directory->size() == 0);
+    Directory* directory = loader.loadDirectory("tmp");
+    CHECK(directory == nullptr);
     delete directory;
 }
 
-TEST_CASE("Directory with files") {
+TEST_CASE("Empty directory") {
+    std::filesystem::create_directory("tmp");
+
     FilesByNameLoader loader;
-    Directory* directory = loader.loadDirectory("resources");
+    Directory* directory = loader.loadDirectory("tmp");
+    CHECK(directory->size() == 0);
+    delete directory;
+
+    std::filesystem::remove("tmp");
+}
+
+TEST_CASE("Directory with files") {
+    std::filesystem::create_directory("tmp");
+    std::filesystem::create_directory("tmp/tmp");
+
+    FilesByNameLoader loader;
+    Directory* directory = loader.loadDirectory("tmp");
     CHECK(directory->size() != 0);
     delete directory;
+
+    std::filesystem::remove("tmp/tmp");
+    std::filesystem::remove("tmp");
 }
