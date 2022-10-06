@@ -31,49 +31,48 @@
 template<typename OutStreamT, typename ResultT = std::string>
 class StreamStorageSaver: public BaseStorageSaver {
 public:
-	StreamStorageSaver(): real_stream{new OutStreamT}, outstream{*real_stream} {};
-	StreamStorageSaver(OutStreamT& out): real_stream{nullptr}, outstream{out} {};
-	~StreamStorageSaver() {
-		if (real_stream) { delete real_stream;}
-	}
-	void save(KnowledgeItemPtr item) override;
+  StreamStorageSaver(): real_stream { new OutStreamT }, outstream { *real_stream } {}
+  StreamStorageSaver(OutStreamT &out): real_stream { nullptr }, outstream { out } {}
+  ~StreamStorageSaver() {
+    if (real_stream) { delete real_stream; }
+  }
+  void save(KnowledgeItemPtr item) override;
 
-	void save_title(const std::string &title) override;
-	void save_creation_time(Timestamp time) override;
-    void save_multiline(const std::string& text) override;
+  void save_title(const std::string &title) override;
+  void save_creation_time(Timestamp time) override;
+  void save_multiline(const std::string &text) override;
 
-	OutStreamT& underlying_stream() {return outstream;}
+  OutStreamT& underlying_stream() {
+    return outstream;
+  }
 
 
 
 private:
-	OutStreamT* real_stream;
-	OutStreamT& outstream;
+  OutStreamT* real_stream;
+  OutStreamT& outstream;
 
 
 };
 
 template<typename OutStreamT, typename ResultT>
-inline void StreamStorageSaver<OutStreamT, ResultT>::save(
-		KnowledgeItemPtr item) {
-	item->save_to(*this);
+inline void StreamStorageSaver<OutStreamT, ResultT>::save(KnowledgeItemPtr item) {
+  item->save_to(*this);
 }
 
 template<typename OutStreamT, typename ResultT>
-inline void StreamStorageSaver<OutStreamT, ResultT>::save_title(
-		const std::string &title) {
-	outstream<<title<<std::endl;
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_title(const std::string &title) {
+  outstream << title << std::endl;
 }
 
 template<typename OutStreamT, typename ResultT>
 inline void StreamStorageSaver<OutStreamT, ResultT>::save_creation_time(Timestamp time) {
-	outstream<<time_to_string(time)<<std::endl;
+  outstream << time_to_string(time) << std::endl;
 }
 
 template<typename OutStreamT, typename ResultT>
-inline void StreamStorageSaver<OutStreamT, ResultT>::save_multiline(
-		const std::string &text) {
-	outstream<<text;
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_multiline(const std::string &text) {
+  outstream << text;
 }
 
 #endif /* STORAGE_H_ */
