@@ -113,7 +113,8 @@ TEST_CASE("Non Existing directory") {
     FilesByNameLoader loader;
     Directory* directory = loader.loadDirectory("tmp");
     CHECK(directory == nullptr);
-    delete directory;
+
+    delete directory; // in case test fails
 }
 
 TEST_CASE("Empty directory") {
@@ -127,15 +128,60 @@ TEST_CASE("Empty directory") {
     std::filesystem::remove("tmp");
 }
 
-TEST_CASE("Directory with files") {
+TEST_CASE("Directory with directory") {
     std::filesystem::create_directory("tmp");
     std::filesystem::create_directory("tmp/tmp");
 
     FilesByNameLoader loader;
     Directory* directory = loader.loadDirectory("tmp");
-    CHECK(directory->size() != 0);
-    delete directory;
+    CHECK(directory->size() == 1);
+    CHECK(dynamic_cast<Directory*>((*directory)[0]) != nullptr);
 
+    delete directory;
     std::filesystem::remove("tmp/tmp");
     std::filesystem::remove("tmp");
+}
+
+TEST_CASE("Directory with file") {
+    std::filesystem::create_directory("tmp");
+    std::fstream file("tmp/tmp.txt", std::ios_base::out);
+
+    FilesByNameLoader loader;
+    Directory* directory = loader.loadDirectory("tmp");
+    CHECK(directory->size() == 1);
+    CHECK(dynamic_cast<File*>((*directory)[0]) != nullptr);
+
+    delete directory;
+    file.close();
+    std::filesystem::remove("tmp/tmp.txt");
+    std::filesystem::remove("tmp");
+}
+
+TEST_CASE("Directory with file and directory") {
+    std::filesystem::create_directory("tmp");
+    std::filesystem::create_directory("tmp/tmp");
+    std::fstream file("tmp/tmp.txt", std::ios_base::out);
+
+    FilesByNameLoader loader;
+    Directory* directory = loader.loadDirectory("tmp");
+    CHECK(directory->size() == 2);
+    CHECK(dynamic_cast<File*>((*directory)[0]) != nullptr);
+    CHECK(dynamic_cast<Directory*>((*directory)[1]) != nullptr);
+
+    delete directory;
+    file.close();
+    std::filesystem::remove("tmp/tmp.txt");
+    std::filesystem::remove("tmp/tmp");
+    std::filesystem::remove("tmp");
+}
+
+TEST_CASE("Provided path to file not directory") {
+    std::fstream file("tmp.txt", std::ios_base::out);
+
+    FilesByNameLoader loader;
+    Directory* directory = loader.loadDirectory("tmp");
+    CHECK(directory == nullptr);
+
+    file.close();
+    delete directory; // in case test fails
 }
