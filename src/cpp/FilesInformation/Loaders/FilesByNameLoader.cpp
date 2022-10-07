@@ -159,8 +159,6 @@ TEST_CASE("Directory with file") {
     std::filesystem::remove("tmp");
 }
 
-#include <iostream>
-
 TEST_CASE("Directory with file and directory") {
     std::filesystem::create_directory("tmp");
     std::filesystem::create_directory("tmp/tmp");
