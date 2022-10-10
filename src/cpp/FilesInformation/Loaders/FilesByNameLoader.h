@@ -12,7 +12,7 @@
 
 class FilesByNameLoader : public FilesLoader {
 public:
-    File loadFile(const std::string &filepath) override;
+    File *loadFile(const std::string &filepath) override;
 
     FilesByNameLoader(const std::string &separator = "/");
 

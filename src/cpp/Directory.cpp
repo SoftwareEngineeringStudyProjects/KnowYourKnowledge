@@ -8,26 +8,37 @@
 #include "Directory.h"
 
 
-Directory::Directory(const std::string &title): KnowledgeItem{title} {
+Directory::Directory(const std::string &title) : KnowledgeItem{title} {
 }
 
 Directory::~Directory() {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
-Directory& Directory::Directory::add(KnowledgeItem *item) {
-	items_.push_back(item);
-	return *this;
+Directory &Directory::Directory::add(KnowledgeItem *item) {
+    items_.push_back(item);
+    return *this;
 }
 
-std::ostream& Directory::output(std::ostream &out) {
-	KnowledgeItem::output(out);
+std::ostream &Directory::output(std::ostream &out) {
+    KnowledgeItem::output(out);
 
-	for(KnowledgeItem* item: items_) {
-		item->output(out);
-	}
+    for (KnowledgeItem *item: items_) {
+        item->output(out);
+    }
 
-	return out;
+    return out;
 }
 
 
+size_t Directory::size() const {
+    return items_.size();
+}
+
+KnowledgeItemPtr const&  Directory::operator[](size_t index) const {
+    return items_[index];
+}
+
+std::vector<KnowledgeItemPtr> Directory::items() const {
+    return items_;
+}

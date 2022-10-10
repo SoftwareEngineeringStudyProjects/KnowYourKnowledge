@@ -42,3 +42,8 @@ std::ostream& KnowledgeItem::KnowledgeItem::output(std::ostream &out) {
 
 	return out;
 }
+
+void KnowledgeItem::save_to(BaseStorageSaver &storage) {
+	storage.save_creation_time(creation_time());
+	storage.save_title(title());
+}
