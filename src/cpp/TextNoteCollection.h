@@ -16,7 +16,6 @@ public:
 	virtual ~TextNoteCollection();
 
 	TextNoteCollection* add(TextNote note);
-    TextNoteCollection* addFromCLI(const std::string& title);
 	void remove(std::size_t num);
 	TextNote get(std::size_t num) const;
 	std::string title() const;
