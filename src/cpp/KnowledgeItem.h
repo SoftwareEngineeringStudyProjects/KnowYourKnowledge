@@ -35,7 +35,7 @@ using KnowledgeItemPtr = KnowledgeItem*;
 
 template<typename StorageT>
 inline void KnowledgeItem::save_to(StorageT& storage) {
-	//TODO: somehow implement as non-virtual method, possibly using a separate virtual method
+	//TODO: somehown implement as non-virtual method, possibly using a separate virtual method
 }
 
 #endif /* KNOWLEDGEITEM_H_ */
