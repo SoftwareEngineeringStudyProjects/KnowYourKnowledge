@@ -1,8 +1,10 @@
 #include "CommandLineProcessor.h"
 #include "CommandLineProcessorConstants.h"
-#include "TextNoteCollection.h"
 #include "FileBuilder.h"
-#include "doctest.h"
+#include "TextNote.h"
+#include "TextNoteCollection.h"
+
+//#include "doctest.h"
 
 void CommandLineProcessor::run(int argc, char **argv) {
     for (int i = 0; i < argc; i++) {

@@ -2,7 +2,7 @@
 #define KNOWYOURKNOWLEDGE_COMMANDLINEPROCESSOR_H
 
 #include <string>
-#include "TextNote.h"
+
 
 class CommandLineProcessor {
 private:
