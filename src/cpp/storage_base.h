@@ -24,6 +24,7 @@ public:
 	virtual void save_title(const std::string& title) = 0;
 	virtual void save_creation_time(Timestamp time) = 0;
 	virtual void save_multiline(const std::string& text) = 0;
+	virtual void save_child(KnowledgeItemPtr child) = 0;
 
 };
 

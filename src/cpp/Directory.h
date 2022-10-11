@@ -19,12 +19,14 @@ public:
 
 	Directory& add(KnowledgeItemPtr item);
 	std::ostream& output(std::ostream &out) override;
+  void save_to(BaseStorageSaver &storage) override;
 
     size_t size() const;
 
     KnowledgeItemPtr const& operator[](size_t index) const;
 
     std::vector<KnowledgeItemPtr> items() const;
+
 
 private:
 	std::vector<KnowledgeItemPtr> items_;

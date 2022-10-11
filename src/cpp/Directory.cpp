@@ -30,6 +30,13 @@ std::ostream &Directory::output(std::ostream &out) {
     return out;
 }
 
+void Directory::save_to(BaseStorageSaver &storage) {
+  KnowledgeItem::save_to(storage);
+  for (KnowledgeItemPtr item: items_) {
+      storage.save_child(item);
+  }
+}
+
 
 size_t Directory::size() const {
     return items_.size();
@@ -42,3 +49,5 @@ KnowledgeItemPtr const&  Directory::operator[](size_t index) const {
 std::vector<KnowledgeItemPtr> Directory::items() const {
     return items_;
 }
+
+

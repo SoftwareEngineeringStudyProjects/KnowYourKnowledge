@@ -41,6 +41,7 @@ public:
   void save_title(const std::string &title) override;
   void save_creation_time(Timestamp time) override;
   void save_multiline(const std::string &text) override;
+  void save_child(KnowledgeItemPtr child) override;
 
   OutStreamT& underlying_stream() {
     return outstream;
@@ -73,6 +74,13 @@ inline void StreamStorageSaver<OutStreamT, ResultT>::save_creation_time(Timestam
 template<typename OutStreamT, typename ResultT>
 inline void StreamStorageSaver<OutStreamT, ResultT>::save_multiline(const std::string &text) {
   outstream << text;
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::save_child(
+    KnowledgeItemPtr child) {
+  child->save_to(*this);
+  outstream<<"\n";
 }
 
 #endif /* STORAGE_H_ */
