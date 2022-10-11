@@ -6,6 +6,7 @@
  */
 
 #include "Config.h"
+#include "CommandLineProcessor.h"
 #include "TextNote.h"
 #include "FileBuilder.h"
 
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
     int client_stuff_return_code = 0;
     // your program - if the testing framework is integrated in your production code
 
-
+    CommandLineProcessor::run(argc, argv);
 
 
 
