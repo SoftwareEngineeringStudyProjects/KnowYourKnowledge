@@ -54,7 +54,7 @@ TEST_CASE("working with stream storage - directory with text notes") {
   storage.save(&dir);
   storage_console.save(&dir);
 
-  std::string expected = current_time_str + "\ndir\n"
+  std::string expected = current_time_str + "\ncollection\n"
       "{\n"
       "  "+current_time_str + "\n"
       "  hello\n"
