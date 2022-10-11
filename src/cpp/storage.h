@@ -36,18 +36,19 @@ public:
   ~StreamStorageSaver() {
     if (real_stream) { delete real_stream; }
   }
+
+  OutStreamT& underlying_stream() {
+    return outstream;
+  }
+
   void save(KnowledgeItemPtr item) override;
 
   void save_title(const std::string &title) override;
   void save_creation_time(Timestamp time) override;
   void save_multiline(const std::string &text) override;
   void save_child(KnowledgeItemPtr child) override;
-
-  OutStreamT& underlying_stream() {
-    return outstream;
-  }
-
-
+  void begin_children() override;
+  void end_children() override;
 
 private:
   OutStreamT* real_stream;
@@ -81,6 +82,16 @@ inline void StreamStorageSaver<OutStreamT, ResultT>::save_child(
     KnowledgeItemPtr child) {
   child->save_to(*this);
   outstream<<"\n";
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::begin_children() {
+  outstream<<"{\n";
+}
+
+template<typename OutStreamT, typename ResultT>
+inline void StreamStorageSaver<OutStreamT, ResultT>::end_children() {
+  outstream<<"}\n";
 }
 
 #endif /* STORAGE_H_ */

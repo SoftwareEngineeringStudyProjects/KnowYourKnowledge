@@ -32,9 +32,11 @@ std::ostream &Directory::output(std::ostream &out) {
 
 void Directory::save_to(BaseStorageSaver &storage) {
   KnowledgeItem::save_to(storage);
+  storage.begin_children();
   for (KnowledgeItemPtr item: items_) {
       storage.save_child(item);
   }
+  storage.end_children();
 }
 
 
