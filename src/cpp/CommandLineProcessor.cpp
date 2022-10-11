@@ -4,11 +4,12 @@
 #include "TextNote.h"
 #include "TextNoteCollection.h"
 
-//#include "doctest.h"
+#include "doctest.h"
 
 void CommandLineProcessor::run(int argc, char **argv) {
     for (int i = 0; i < argc; i++) {
         if (argv[i] == ADD_NOTE_NAME) {
+            std::cout<<"add mode"<<std::endl;
             std::string addNoteTitle(argv[++i]);
             addNote(addNoteTitle);
         }
@@ -36,4 +37,9 @@ void CommandLineProcessor::addNote(const std::string &title) {
     // Saving current collection back to file
     FileBuilder::toFile(&currentCollection, SAVE_FILE_PATH_NAME);
 }
+
+//TEST_CASE("imitate CLI call - add note") {
+//  char* simulatedArgv[3] = {"ky", "add", "note"};
+//  CommandLineProcessor::run(3, simulatedArgv);
+//}
 
