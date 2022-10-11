@@ -3,7 +3,7 @@
 
 const char* ADD_NOTE_NAME = "add";
 
-const char* READ_FILE_NAME = "config.txt";
-const char* SAVE_FILE_PATH_NAME = "../../resources/config.txt";
+const char* COLLECTION_KEY = "current_collection";
+const char* CONFIG_FILE_PATH_NAME = "../../resources/config.txt";
 
 #endif //KNOWYOURKNOWLEDGE_COMMANDLINEPROCESSORCONSTANTS_H

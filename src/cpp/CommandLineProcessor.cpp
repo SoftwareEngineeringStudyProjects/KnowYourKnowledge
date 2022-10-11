@@ -1,8 +1,10 @@
 #include "CommandLineProcessor.h"
 #include "CommandLineProcessorConstants.h"
+#include "Config.h"
 #include "FileBuilder.h"
 #include "TextNote.h"
 #include "TextNoteCollection.h"
+#include <iostream>
 
 #include "doctest.h"
 
@@ -30,12 +32,19 @@ void CommandLineProcessor::addNote(const std::string &title) {
     }
     TextNote newTextNote(title, text);
 
+    // Loading current collection name from config
+    Config config;
+    config.read_from_file(CONFIG_FILE_PATH_NAME);
+
+    // CONFIG MUST RETURN FILE PATH NOT NAME
+    std::string currentCollectionPath = config.get(COLLECTION_KEY);
+
     // Saving the text note to current collection
-    TextNoteCollection currentCollection = FileBuilder::collectionFromFile(READ_FILE_NAME);
+    TextNoteCollection currentCollection = FileBuilder::collectionFromFile(currentCollectionPath);
     currentCollection.add(newTextNote);
 
     // Saving current collection back to file
-    FileBuilder::toFile(&currentCollection, SAVE_FILE_PATH_NAME);
+    FileBuilder::toFile(&currentCollection, currentCollectionPath);
 }
 
 //TEST_CASE("imitate CLI call - add note") {
