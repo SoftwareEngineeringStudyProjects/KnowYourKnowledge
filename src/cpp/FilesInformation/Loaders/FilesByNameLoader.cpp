@@ -84,7 +84,7 @@ TEST_CASE("Extension with several dots with Windows separator") {
 
 TEST_CASE("Existing file") {
     FilesByNameLoader loader = FilesByNameLoader();
-    File *file = loader.loadFile("resources/text.txt");
+    File *file = loader.loadFile("./resources/text.txt");
     CHECK(file->exists());
     delete file;
 }
