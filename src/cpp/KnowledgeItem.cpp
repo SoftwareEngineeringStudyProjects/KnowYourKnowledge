@@ -6,9 +6,6 @@
  */
 
 #include "KnowledgeItem.h"
-#include "SearchCriteria.h"
-#include "doctest.h"
-#include "TextNote.h"
 
 #include <cassert>
 
