@@ -9,8 +9,18 @@
 
 #include "doctest.h"
 
+
+
 void CommandLineProcessor::run(int argc, char **argv) {
-    for (int i = 0; i < argc; i++) {
+  if (strcmp(argv[1], SET_PARAMETER_NAME) == 0)   {
+    if (argc != 4) {
+      std::cerr<<"set command requires two additional parameters: set <key> <value>"<<std::endl;
+      return;
+    }
+    setConfigParameter(argv[2], argv[3]);
+    return;
+  }
+  for (int i = 0; i < argc; i++) {
         if (strcmp(argv[i], ADD_NOTE_NAME) == 0) {
             std::cout<<"add mode"<<std::endl;
             std::string addNoteTitle(argv[++i]);
@@ -46,6 +56,16 @@ void CommandLineProcessor::addNote(const std::string &title) {
 
     // Saving current collection back to file
     FileBuilder::toFile(&currentCollection, currentCollectionPath);
+}
+
+void CommandLineProcessor::setConfigParameter(const std::string &key,
+    const std::string &value) {
+
+  Config config;
+  config.read_from_file(CONFIG_FILE_PATH_NAME);
+  config.set(key, value);
+  config.write_to_file(CONFIG_FILE_PATH_NAME);
+  std::cout<<"Set config parameter key="<<key<<", value="<<value<<std::endl;
 }
 
 //TEST_CASE("imitate CLI call - add note") {

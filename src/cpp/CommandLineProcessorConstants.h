@@ -2,6 +2,7 @@
 #define KNOWYOURKNOWLEDGE_COMMANDLINEPROCESSORCONSTANTS_H
 
 const char* ADD_NOTE_NAME = "add";
+const char* SET_PARAMETER_NAME = "set";
 
 const char* COLLECTION_KEY = "current_collection";
 const char* CONFIG_FILE_PATH_NAME = "./resources/config.txt";
