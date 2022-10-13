@@ -5,12 +5,13 @@
 #include "TextNote.h"
 #include "TextNoteCollection.h"
 #include <iostream>
+#include <cstring>
 
 #include "doctest.h"
 
 void CommandLineProcessor::run(int argc, char **argv) {
     for (int i = 0; i < argc; i++) {
-        if (argv[i] == ADD_NOTE_NAME) {
+        if (strcmp(argv[i], ADD_NOTE_NAME) == 0) {
             std::cout<<"add mode"<<std::endl;
             std::string addNoteTitle(argv[++i]);
             addNote(addNoteTitle);
