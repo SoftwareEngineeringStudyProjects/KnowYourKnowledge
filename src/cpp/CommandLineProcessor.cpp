@@ -10,10 +10,13 @@
 
 void CommandLineProcessor::run(int argc, char **argv) {
     for (int i = 0; i < argc; i++) {
-        if (argv[i] == ADD_NOTE_NAME) {
+        if (strcmp(argv[i], ADD_NOTE_NAME) == 0) {
             std::cout<<"add mode"<<std::endl;
             std::string addNoteTitle(argv[++i]);
             addNote(addNoteTitle);
+        }
+        else {
+            std::cout<<"enter a valid command name"<<std::endl;
         }
         /*
         else if (argv[i] == SEARCH_NOTE_NAME) {
