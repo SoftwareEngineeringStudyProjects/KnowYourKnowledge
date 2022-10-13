@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 class CommandLineProcessor {
 private:
     static void addNote(const std::string &title);
