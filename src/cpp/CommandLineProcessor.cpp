@@ -20,6 +20,15 @@ void CommandLineProcessor::run(int argc, char **argv) {
     setConfigParameter(argv[2], argv[3]);
     return;
   }
+  if (strcmp(argv[1], ADD_COLLECTION_NAME) == 0)   {
+    if (argc != 4) {
+      std::cerr<<ADD_COLLECTION_NAME<<" command requires two additional parameters: "
+          << ADD_COLLECTION_NAME<<" <title> <dirpath>"<<std::endl;
+      return;
+    }
+    addCollection(argv[2], argv[3]);
+    return;
+  }
   for (int i = 0; i < argc; i++) {
         if (strcmp(argv[i], ADD_NOTE_NAME) == 0) {
             std::cout<<"add mode"<<std::endl;
@@ -56,6 +65,13 @@ void CommandLineProcessor::addNote(const std::string &title) {
 
     // Saving current collection back to file
     FileBuilder::toFile(&currentCollection, currentCollectionPath);
+}
+
+void CommandLineProcessor::addCollection(const std::string &title,
+    const std::string &path) {
+  TextNoteCollection newCollection {title};
+  FileBuilder::toFile(&newCollection,path);
+  std::cout<<"created collection with title="<<title<<" in directory="<<path<<std::endl;
 }
 
 void CommandLineProcessor::setConfigParameter(const std::string &key,
