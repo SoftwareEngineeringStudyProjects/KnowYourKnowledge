@@ -57,32 +57,28 @@ TEST_CASE("creating object with fixed creation time") {
 }
 
 TEST_CASE("Match with empty criteria") {
-    KnowledgeItem* item = new TextNote("a");
-    SearchCriteria<std::string, std::time_t>* criteria = new SearchCriteria<std::string, std::time_t>();
-    CHECK(item->match(criteria) == 1);
-    delete criteria;
+    TextNote item("a");
+    SearchCriteria<std::string, std::time_t> criteria;
+    CHECK(item.match(&criteria) == 1);
 }
 
 TEST_CASE("Match with criteria with non-matching conditions") {
-    KnowledgeItem* item = new TextNote("a");
-    SearchCriteria<std::string, std::time_t>* criteria = new SearchCriteria<std::string, std::time_t>();
-    criteria->addEqualityCheck<std::string>("title", "nine");
-    CHECK(item->match(criteria) == 0);
-    delete criteria;
+    TextNote item("a");
+    SearchCriteria<std::string, std::time_t> criteria;
+    criteria.addEqualToCheck<std::string>("title", "nine");
+    CHECK(item.match(&criteria) == 0);
 }
 
 TEST_CASE("Match with criteria with matching condition") {
-    KnowledgeItem* item = new TextNote("a");
-    SearchCriteria<std::string, std::time_t>* criteria = new SearchCriteria<std::string, std::time_t>();
-    criteria->addEqualityCheck<std::string>("title", "a");
-    CHECK(item->match(criteria) == 1);
-    delete criteria;
+    TextNote item("a");
+    SearchCriteria<std::string, std::time_t> criteria;
+    criteria.addEqualToCheck<std::string>("title", "a");
+    CHECK(item.match(&criteria) == 1);
 }
 TEST_CASE("Match with criteria with matching and non-matching conditions") {
-    KnowledgeItem* item = new TextNote("a");
-    SearchCriteria<std::string, std::time_t>* criteria = new SearchCriteria<std::string, std::time_t>();
-    criteria->addEqualityCheck<std::string>("title", "nine");
-    criteria->addEqualityCheck<std::string>("title", "a");
-    CHECK(item->match(criteria) == 0.5);
-    delete criteria;
+    TextNote item("a");
+    SearchCriteria<std::string, std::time_t> criteria;
+    criteria.addEqualToCheck<std::string>("title", "nine");
+    criteria.addEqualToCheck<std::string>("title", "a");
+    CHECK(item.match(&criteria) == 0.5);
 }
