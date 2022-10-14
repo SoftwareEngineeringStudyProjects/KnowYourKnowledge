@@ -48,8 +48,9 @@ int main(int argc, char** argv) {
     FileBuilder::toFile(&collection);
 
 
-    TextNoteCollection collection2 = FileBuilder::collectionFromFile("test");
+    TextNoteCollection collection2 = FileBuilder::collectionFromFile(FileBuilder::getFileName("test"));
     collection2.print();
+
 
     Config config;
     config.set("current_collection", "MyNotes");

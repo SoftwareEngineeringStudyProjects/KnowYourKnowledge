@@ -56,15 +56,19 @@ void CommandLineProcessor::addNote(const std::string &title) {
     Config config;
     config.read_from_file(CONFIG_FILE_PATH_NAME);
 
-    // CONFIG MUST RETURN FILE PATH NOT NAME
-    std::string currentCollectionPath = config.get(COLLECTION_KEY);
+    std::string currentCollectionTitle = config.get(COLLECTION_KEY);
+    std::string collectionDir = config.get(COLLECTION_DIR_KEY);
+    std::string collectionFilePath = FileBuilder::getFileName(currentCollectionTitle,collectionDir);
+//    std::cout<<"loading collection from "<<collectionFilePath<<std::endl;
 
     // Saving the text note to current collection
-    TextNoteCollection currentCollection = FileBuilder::collectionFromFile(currentCollectionPath);
+    TextNoteCollection currentCollection = FileBuilder::collectionFromFile(collectionFilePath);
     currentCollection.add(newTextNote);
 
     // Saving current collection back to file
-    FileBuilder::toFile(&currentCollection, currentCollectionPath);
+//    std::cout<<"saving collection with title "<<currentCollection.title()
+//        <<" to directory "<<collectionDir<<std::endl;
+    FileBuilder::toFile(&currentCollection, collectionDir);
 }
 
 void CommandLineProcessor::addCollection(const std::string &title,
