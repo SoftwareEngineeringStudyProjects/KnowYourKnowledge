@@ -48,7 +48,7 @@ void CommandLineProcessor::addNote(const std::string &title) {
     std::string text, line;
     std::cout << "Please, enter the text of a new note:" << std::endl;
     while (getline(std::cin, line) && !line.empty()) {
-        text += line;
+        text += line+'\n';
     }
     TextNote newTextNote(title, text);
 
