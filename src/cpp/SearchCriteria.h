@@ -37,12 +37,22 @@ public:
         conditions_[component].push_back(lessThan(value));
     }
 
+    void addContainsCheck(const std::string &component, const std::string &value) {
+        conditions_[component].push_back(contains(value));
+    }
+
     void addCheck(const std::string &component, searchCondition<T...> condition) {
         conditions_[component].push_back(condition);
     }
 
 private:
     std::map<std::string, std::vector<searchCondition<T...>>> conditions_;
+
+    searchCondition<T...> contains(const std::string &value) {
+        return [value](std::variant<T...> variant) {
+            return value.find(std::get<std::string>(variant)) != -1;
+        };
+    }
 
     template<class E>
     searchCondition<T...> equalTo(const E &value) {
@@ -94,6 +104,13 @@ TEST_CASE("Add less than check") {
     CHECK(!criteria.get("rand")[0](4));
     CHECK(!criteria.get("rand")[0](5));
     CHECK(criteria.get("rand")[0](6));
+}
+
+TEST_CASE("Add contains check") {
+    SearchCriteria<std::string> criteria;
+    criteria.addContainsCheck("rand", "random");
+    CHECK(criteria.get("rand")[0]("rand"));
+    CHECK(!criteria.get("rand")[0]("ram"));
 }
 
 TEST_CASE("Add check") {
