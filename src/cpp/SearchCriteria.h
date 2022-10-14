@@ -12,54 +12,54 @@
 #include <string>
 
 template<class... T>
-using searchCondtition = std::function<bool(std::variant<T...>)>;
+using searchCondition = std::function<bool(std::variant<T...>)>;
 
 template<class... T>
 class SearchCriteria {
 public:
-    std::vector<searchCondtition<T...>> get(const std::string &component) const {
-        if (!conditions_.count(component)) return std::vector<searchCondtition<T...>>();
+    std::vector<searchCondition<T...>> get(const std::string &component) const {
+        if (!conditions_.count(component)) return std::vector<searchCondition<T...>>();
         return conditions_.at(component);
     }
 
     template<class E>
-    void addEqualityCheck(const std::string &component, const E &value) {
-        conditions_[component].push_back(equalityCheck(value));
+    void addEqualToCheck(const std::string &component, const E &value) {
+        conditions_[component].push_back(equalTo(value));
     }
 
     template<class E>
-    void addGreaterCheck(const std::string &component, const E &value) {
-        conditions_[component].push_back(greaterCheck(value));
+    void addGreaterThanCheck(const std::string &component, const E &value) {
+        conditions_[component].push_back(greaterThan(value));
     }
 
     template<class E>
-    void addLowerCheck(const std::string &component, const E &value) {
-        conditions_[component].push_back(lowerCheck(value));
+    void addLessThanCheck(const std::string &component, const E &value) {
+        conditions_[component].push_back(lessThan(value));
     }
 
-    void addCheck(const std::string &component, searchCondtition<T...> condition) {
+    void addCheck(const std::string &component, searchCondition<T...> condition) {
         conditions_[component].push_back(condition);
     }
 
 private:
-    std::map<std::string, std::vector<searchCondtition<T...>>> conditions_;
+    std::map<std::string, std::vector<searchCondition<T...>>> conditions_;
 
     template<class E>
-    searchCondtition<T...> equalityCheck(const E &value) {
+    searchCondition<T...> equalTo(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) == value;
         };
     }
 
     template<class E>
-    searchCondtition<T...> greaterCheck(const E &value) {
+    searchCondition<T...> greaterThan(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) < value;
         };
     }
 
     template<class E>
-    searchCondtition<T...> lowerCheck(const E &value) {
+    searchCondition<T...> lessThan(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) > value;
         };
@@ -67,48 +67,42 @@ private:
 };
 
 TEST_CASE("Get with no conditions for component") {
-    SearchCriteria<int> *criteria = new SearchCriteria<int>();
-    CHECK(criteria->get("rand").empty());
-    delete criteria;
+    SearchCriteria<int> criteria;
+    CHECK(criteria.get("rand").empty());
 }
 
-TEST_CASE("Add equality check") {
-    SearchCriteria<int> *criteria = new SearchCriteria<int>();
-    criteria->addEqualityCheck("rand", 5);
-    CHECK(!criteria->get("rand")[0](4));
-    CHECK(criteria->get("rand")[0](5));
-    CHECK(!criteria->get("rand")[0](6));
-    delete criteria;
+TEST_CASE("Add equal to check") {
+    SearchCriteria<int> criteria;
+    criteria.addEqualToCheck("rand", 5);
+    CHECK(!criteria.get("rand")[0](4));
+    CHECK(criteria.get("rand")[0](5));
+    CHECK(!criteria.get("rand")[0](6));
 }
 
-TEST_CASE("Add greater check") {
-    SearchCriteria<int> *criteria = new SearchCriteria<int>();
-    criteria->addGreaterCheck("rand", 5);
-    CHECK(criteria->get("rand")[0](4));
-    CHECK(!criteria->get("rand")[0](5));
-    CHECK(!criteria->get("rand")[0](6));
-    delete criteria;
+TEST_CASE("Add greater than check") {
+    SearchCriteria<int> criteria;
+    criteria.addGreaterThanCheck("rand", 5);
+    CHECK(criteria.get("rand")[0](4));
+    CHECK(!criteria.get("rand")[0](5));
+    CHECK(!criteria.get("rand")[0](6));
 }
 
 
-TEST_CASE("Add lower check") {
-    SearchCriteria<int> *criteria = new SearchCriteria<int>();
-    criteria->addLowerCheck("rand", 5);
-    CHECK(!criteria->get("rand")[0](4));
-    CHECK(!criteria->get("rand")[0](5));
-    CHECK(criteria->get("rand")[0](6));
-    delete criteria;
+TEST_CASE("Add less than check") {
+    SearchCriteria<int> criteria;
+    criteria.addLessThanCheck("rand", 5);
+    CHECK(!criteria.get("rand")[0](4));
+    CHECK(!criteria.get("rand")[0](5));
+    CHECK(criteria.get("rand")[0](6));
 }
 
 TEST_CASE("Add check") {
-    SearchCriteria<int> *criteria = new SearchCriteria<int>();
+    SearchCriteria<int> criteria;
     auto check = [](std::variant<int> val) { return std::get<int>(val) == 3; };
-    criteria->addCheck("rand", check);
-    CHECK(!criteria->get("rand")[0](4));
-    CHECK(criteria->get("rand")[0](3));
-    delete criteria;
+    criteria.addCheck("rand", check);
+    CHECK(!criteria.get("rand")[0](4));
+    CHECK(criteria.get("rand")[0](3));
 }
-
 
 
 #endif //KNOWYOURKNOWLEDGEMYFORK_SEARCHCRITERIA_H
