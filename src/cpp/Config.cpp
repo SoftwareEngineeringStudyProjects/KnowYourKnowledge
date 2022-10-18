@@ -31,7 +31,7 @@ void parse_key_value(std::string line, std::string& key, std::string& value) {
 	value = line.substr(delimiter_position+1);
 }
 
-void Config::read_from_file(std::string filename) {
+void Config::readFromFile(std::string filename) {
 	  std::ifstream infile;
 	  std::string line;
 	  infile.open (filename);
@@ -41,7 +41,7 @@ void Config::read_from_file(std::string filename) {
 	  infile.close();
 }
 
-void Config::write_to_file(std::string filename) {
+void Config::writeToFile(std::string filename) {
 	std::ofstream outfile;
 	outfile.open(filename);
 	outfile<<*this;

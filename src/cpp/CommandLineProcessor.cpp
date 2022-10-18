@@ -54,7 +54,7 @@ void CommandLineProcessor::addNote(const std::string &title) {
 
     // Loading current collection name from config
     Config config;
-    config.read_from_file(CONFIG_FILE_PATH_NAME);
+    config.readFromFile(CONFIG_FILE_PATH_NAME);
 
     std::string currentCollectionTitle = config.get(COLLECTION_KEY);
     std::string collectionDir = config.get(COLLECTION_DIR_KEY);
@@ -82,9 +82,9 @@ void CommandLineProcessor::setConfigParameter(const std::string &key,
     const std::string &value) {
 
   Config config;
-  config.read_from_file(CONFIG_FILE_PATH_NAME);
+  config.readFromFile(CONFIG_FILE_PATH_NAME);
   config.set(key, value);
-  config.write_to_file(CONFIG_FILE_PATH_NAME);
+  config.writeToFile(CONFIG_FILE_PATH_NAME);
   std::cout<<"Set config parameter key="<<key<<", value="<<value<<std::endl;
 }
 

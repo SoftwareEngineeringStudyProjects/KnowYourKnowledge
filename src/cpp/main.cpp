@@ -61,10 +61,10 @@ int main(int argc, char** argv) {
     config.set("something","anything");
     std::cout<<config.get("something")<<std::endl;
 
-    config.write_to_file("config.txt");
+    config.writeToFile("config.txt");
 
     Config config2;
-    config2.read_from_file("config.txt");
+    config2.readFromFile("config.txt");
     std::cout<<config2.get("current_collection")<<std::endl;
     std::cout<<config2.get("something")<<std::endl;
 
