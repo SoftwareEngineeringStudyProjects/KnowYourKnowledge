@@ -17,11 +17,11 @@ Config::Config() {
 
 }
 
-std::string Config::get(std::string key) const {
+std::string Config::get(const std::string& key) const {
 	return items_.at(key);
 }
 
-void Config::set(std::string key, std::string value) {
+void Config::set(const std::string& key, std::string value) {
 	items_[key] = value;
 }
 
@@ -31,7 +31,7 @@ void parse_key_value(std::string line, std::string& key, std::string& value) {
 	value = line.substr(delimiter_position+1);
 }
 
-void Config::readFromFile(std::string filename) {
+void Config::readFromFile(const std::string& filename) {
 	  std::ifstream infile;
 	  std::string line;
 	  infile.open (filename);
@@ -41,7 +41,7 @@ void Config::readFromFile(std::string filename) {
 	  infile.close();
 }
 
-void Config::writeToFile(std::string filename) {
+void Config::writeToFile(const std::string& filename) {
 	std::ofstream outfile;
 	outfile.open(filename);
 	outfile<<*this;
