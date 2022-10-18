@@ -3,7 +3,8 @@
 ### Everything is a Knowledge Item. 
 #### KnowledgeItem 
 KnowledgeItem - abstract class, that is parental for all other items
-**Unique fields: _title, creation_time,  id: **
+
+**Unique fields: title, creation_time,  id**
 
 
 ### Information Classes 
@@ -16,7 +17,7 @@ Documentation and description for each specific class could be found (in future)
 #### Storage : Inherited from KnowledgeItem
 Storage—abstract class to store other items. Inherited from KnowledgeItem. 
 
-**Additional fields: container :  can store objects of different types, but all of them are inherited from KnowledgeItem. 
+**Additional fields: container :  can store objects of different types, but all of them are inherited from KnowledgeItem.** 
 
 #### Other Storage classes
 Other storage classes, such as Directory and TextNoteCollection are inherited from Storage.
