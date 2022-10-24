@@ -22,9 +22,20 @@ public:
         return conditions_.at(component);
     }
 
+    template<class E>
+    std::vector<searchCondition<T...>> get() const {
+        if (!typeConditions_.count(typeid(E).hash_code())) return std::vector<searchCondition<T...>>();
+        return typeConditions_.at(typeid(E).hash_code());
+    }
+
     template<typename E>
     void addEqualToCheck(const std::string &component, const E &value) {
         conditions_[component].push_back(equalTo(value));
+    }
+
+    template<typename E>
+    void addEqualToCheck(const E &value) {
+        typeConditions_[typeid(E).hash_code()].push_back(equalTo(value));
     }
 
     template<typename E>
@@ -33,8 +44,18 @@ public:
     }
 
     template<typename E>
+    void addGreaterThanCheck(const E &value) {
+        typeConditions_[typeid(E).hash_code()].push_back(greaterThan(value));
+    }
+
+    template<typename E>
     void addLessThanCheck(const std::string &component, const E &value) {
         conditions_[component].push_back(lessThan(value));
+    }
+
+    template<typename E>
+    void addLessThanCheck(const E &value) {
+        typeConditions_[typeid(E).hash_code()].push_back(lessThan(value));
     }
 
     void addContainsCheck(const std::string &component, const std::string &value) {
@@ -45,7 +66,13 @@ public:
         conditions_[component].push_back(condition);
     }
 
+    template<typename E>
+    void addCheck(searchCondition<T...> condition) {
+        typeConditions_[typeid(E).hash_code()].push_back(condition);
+    }
+
 private:
+    std::map<size_t, std::vector<searchCondition<T...>>>  typeConditions_;
     std::map<std::string, std::vector<searchCondition<T...>>> conditions_;
 
     static searchCondition<T...> contains(const std::string &value) {
@@ -76,9 +103,23 @@ private:
     }
 };
 
+TEST_CASE("Get with no conditions for type") {
+    SearchCriteria<int> criteria;
+    CHECK(criteria.get<int>().empty());
+}
+
+
 TEST_CASE("Get with no conditions for component") {
     SearchCriteria<int> criteria;
     CHECK(criteria.get("rand").empty());
+}
+
+TEST_CASE("Add equal to for type check") {
+    SearchCriteria<int> criteria;
+    criteria.addEqualToCheck(5);
+    CHECK(!criteria.get<int>()[0](4));
+    CHECK(criteria.get<int>()[0](5));
+    CHECK(!criteria.get<int>()[0](6));
 }
 
 TEST_CASE("Add equal to check") {
@@ -97,6 +138,13 @@ TEST_CASE("Add greater than check") {
     CHECK(!criteria.get("rand")[0](6));
 }
 
+TEST_CASE("Add greater than for type check") {
+    SearchCriteria<int> criteria;
+    criteria.addGreaterThanCheck(5);
+    CHECK(criteria.get<int>()[0](4));
+    CHECK(!criteria.get<int>()[0](5));
+    CHECK(!criteria.get<int>()[0](6));
+}
 
 TEST_CASE("Add less than check") {
     SearchCriteria<int> criteria;
@@ -104,6 +152,14 @@ TEST_CASE("Add less than check") {
     CHECK(!criteria.get("rand")[0](4));
     CHECK(!criteria.get("rand")[0](5));
     CHECK(criteria.get("rand")[0](6));
+}
+
+TEST_CASE("Add less than for type check") {
+    SearchCriteria<int> criteria;
+    criteria.addLessThanCheck(5);
+    CHECK(!criteria.get<int>()[0](4));
+    CHECK(!criteria.get<int>()[0](5));
+    CHECK(criteria.get<int>()[0](6));
 }
 
 TEST_CASE("Add contains check") {
@@ -119,6 +175,14 @@ TEST_CASE("Add check") {
     criteria.addCheck("rand", check);
     CHECK(!criteria.get("rand")[0](4));
     CHECK(criteria.get("rand")[0](3));
+}
+
+TEST_CASE("Add check for type") {
+    SearchCriteria<int> criteria;
+    auto check = [](std::variant<int> val) { return std::get<int>(val) == 3; };
+    criteria.addCheck<int>(check);
+    CHECK(!criteria.get<int>()[0](4));
+    CHECK(criteria.get<int>()[0](3));
 }
 
 
