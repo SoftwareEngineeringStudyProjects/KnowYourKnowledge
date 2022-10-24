@@ -11,10 +11,10 @@
 #include <vector>
 #include <string>
 
-template<class... T>
+template<typename... T>
 using searchCondition = std::function<bool(std::variant<T...>)>;
 
-template<class... T>
+template<typename... T>
 class SearchCriteria {
 public:
     std::vector<searchCondition<T...>> get(const std::string &component) const {
@@ -22,17 +22,17 @@ public:
         return conditions_.at(component);
     }
 
-    template<class E>
+    template<typename E>
     void addEqualToCheck(const std::string &component, const E &value) {
         conditions_[component].push_back(equalTo(value));
     }
 
-    template<class E>
+    template<typename E>
     void addGreaterThanCheck(const std::string &component, const E &value) {
         conditions_[component].push_back(greaterThan(value));
     }
 
-    template<class E>
+    template<typename E>
     void addLessThanCheck(const std::string &component, const E &value) {
         conditions_[component].push_back(lessThan(value));
     }
@@ -54,21 +54,21 @@ private:
         };
     }
 
-    template<class E>
+    template<typename E>
     searchCondition<T...> equalTo(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) == value;
         };
     }
 
-    template<class E>
+    template<typename E>
     searchCondition<T...> greaterThan(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) < value;
         };
     }
 
-    template<class E>
+    template<typename E>
     searchCondition<T...> lessThan(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) > value;
