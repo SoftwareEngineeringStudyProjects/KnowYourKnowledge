@@ -54,10 +54,21 @@ double KnowledgeItem::match(SearchCriteria<std::string, std::time_t> *criteria) 
         if (condition(_title)) ++passed;
         ++total;
     }
+
+    for (const auto &condition: criteria->get<std::string>()) {
+        if (condition(_title)) ++passed;
+        ++total;
+    }
+
     for (const auto &condition: criteria->get("creation_time")) {
         if (condition(_creation_time)) ++passed;
         ++total;
     }
-    if (total == 0) return 1;
-    return passed / total;
+
+    for (const auto &condition: criteria->get<std::time_t>()) {
+        if (condition(_creation_time)) ++passed;
+        ++total;
+    }
+
+    return total == 0 ? 1 : passed / total;
 }
