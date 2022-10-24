@@ -48,28 +48,28 @@ public:
 private:
     std::map<std::string, std::vector<searchCondition<T...>>> conditions_;
 
-    searchCondition<T...> contains(const std::string &value) {
+    static searchCondition<T...> contains(const std::string &value) {
         return [value](std::variant<T...> variant) {
             return value.find(std::get<std::string>(variant)) != -1;
         };
     }
 
     template<typename E>
-    searchCondition<T...> equalTo(const E &value) {
+    static searchCondition<T...> equalTo(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) == value;
         };
     }
 
     template<typename E>
-    searchCondition<T...> greaterThan(const E &value) {
+    static searchCondition<T...> greaterThan(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) < value;
         };
     }
 
     template<typename E>
-    searchCondition<T...> lessThan(const E &value) {
+    static searchCondition<T...> lessThan(const E &value) {
         return [value](std::variant<T...> variant) {
             return std::get<E>(variant) > value;
         };
