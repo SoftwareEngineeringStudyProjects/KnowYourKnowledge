@@ -61,6 +61,8 @@ inline KnowledgeItemPtr StreamStorageLoader<
   instream_.getline(title);
   std::string text = "";
 
+  Directory* dir = nullptr;
+
   while(true) {
     instream_.getline(line);
     string_helper::trim(line);
@@ -70,15 +72,19 @@ inline KnowledgeItemPtr StreamStorageLoader<
       }
       return result;
     } else if (line == "{") { // start collection
-//      Directory dir = new Directory(title, creationTime); //TODO: add this constructor in Directory
-//      result = dir;
-//      KnowledgeItemPtr child = load();
-//      dir->add(child);
+      dir = new Directory(title, creationTime);
+      result = dir;
+
 
     } else if (line == "}") { // end collection
-      // return dir? or return nullptr to signal end of current collection
-    } else { // part of text
-      text+=line+"\n";
+      dir = nullptr;
+    } else {
+      if (dir) { // adding children to directory
+        KnowledgeItemPtr child = load();
+        dir->add(child);
+      } else { // adding lines to text
+        text+=line+"\n";
+      }
     }
   }
 
