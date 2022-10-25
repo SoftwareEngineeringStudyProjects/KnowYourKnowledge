@@ -49,7 +49,7 @@ void KnowledgeItem::save_to(BaseStorageSaver &storage) {
 }
 
 
-std::pair<int, int> KnowledgeItem::_match(SearchCriteria<std::string, std::time_t> *criteria) {
+MatchResult KnowledgeItem::_match(SearchCriteria<std::string, std::time_t> *criteria) {
     int passed = 0, total = 0;
     for (const auto &condition: criteria->get("title")) {
         if (condition(_title)) ++passed;
@@ -70,11 +70,11 @@ std::pair<int, int> KnowledgeItem::_match(SearchCriteria<std::string, std::time_
         if (condition(_creation_time)) ++passed;
         ++total;
     }
-    return {total, passed};
+    return MatchResult(total, passed);
 }
 
 
 double KnowledgeItem::match(SearchCriteria<std::string, std::time_t> *criteria) {
-    std::pair<int, int> result = _match(criteria);
-    return result.first == 0 ? 1 : 1.0 * result.second / result.first;
+    auto result = _match(criteria);
+    return result.total() == 0 ? 1 : 1.0 * result.passed() / result.total();
 }

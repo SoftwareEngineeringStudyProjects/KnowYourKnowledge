@@ -10,6 +10,7 @@
 
 #include "storage_base.h"
 #include "SearchCriteria.h"
+#include "MatchResult.h"
 
 #include <ostream>
 #include <string>
@@ -35,7 +36,7 @@ protected:
 	std::string _title;
 	std::time_t _creation_time;
 
-    virtual std::pair<int, int> _match(SearchCriteria<std::string, std::time_t> *criteria);
+    virtual MatchResult _match(SearchCriteria<std::string, std::time_t> *criteria);
 };
 
 //typedef KnowledgeItem* KnowledgeItemPtr;

@@ -42,9 +42,9 @@ double TextNote::match(SearchCriteria <std::string, std::time_t> *criteria)  {
     return result.first == 0 ? 1 : result.second / result.first;
 }*/
 
-std::pair<int, int> TextNote::_match(SearchCriteria<std::string, std::time_t> *criteria) {
-    std::pair<int, int> baseResult = KnowledgeItem::_match(criteria);
-    int passed = baseResult.second, total = baseResult.first;
+MatchResult TextNote::_match(SearchCriteria<std::string, std::time_t> *criteria) {
+    MatchResult baseResult = KnowledgeItem::_match(criteria);
+    int passed = baseResult.passed(), total = baseResult.total();
 
     for (const auto& condition: criteria->get("text")) {
         if (condition(_text)) ++passed;
@@ -56,7 +56,7 @@ std::pair<int, int> TextNote::_match(SearchCriteria<std::string, std::time_t> *c
         ++total;
     }
 
-    return {total, passed};
+    return MatchResult(total, passed);
 }
 
 TEST_CASE("creating object with fixed creation time") {
