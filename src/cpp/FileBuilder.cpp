@@ -66,7 +66,8 @@ TextNote FileBuilder::fromFile(std::string filename){
 
 std::ifstream FileBuilder::openFile(std::string filename) {
 	std::ifstream file;
-	file.open(getFileName(filename));
+	//file.open(getFileName(filename)); // FIXME: only one parameter, requires two?
+	file.open(filename);
 	assert (!file.fail());
 	return file;
 }

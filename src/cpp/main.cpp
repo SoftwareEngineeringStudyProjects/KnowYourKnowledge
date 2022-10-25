@@ -6,6 +6,7 @@
  */
 
 #include "Config.h"
+#include "CommandLineProcessor.h"
 #include "TextNote.h"
 #include "FileBuilder.h"
 
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
     int client_stuff_return_code = 0;
     // your program - if the testing framework is integrated in your production code
 
-
+    CommandLineProcessor::run(argc, argv);
 
 
 
@@ -47,8 +48,9 @@ int main(int argc, char** argv) {
     FileBuilder::toFile(&collection);
 
 
-    TextNoteCollection collection2 = FileBuilder::collectionFromFile("test");
+    TextNoteCollection collection2 = FileBuilder::collectionFromFile(FileBuilder::getFileName("test"));
     collection2.print();
+
 
     Config config;
     config.set("current_collection", "MyNotes");
@@ -59,10 +61,10 @@ int main(int argc, char** argv) {
     config.set("something","anything");
     std::cout<<config.get("something")<<std::endl;
 
-    config.write_to_file("config.txt");
+    config.writeToFile("config.txt");
 
     Config config2;
-    config2.read_from_file("config.txt");
+    config2.readFromFile("config.txt");
     std::cout<<config2.get("current_collection")<<std::endl;
     std::cout<<config2.get("something")<<std::endl;
 

@@ -20,16 +20,16 @@ class BaseStorageSaver;
 
 class KnowledgeItem {
 public:
-	KnowledgeItem(std::string title);
-	KnowledgeItem(std::string title, std::time_t creation_time);
-	virtual ~KnowledgeItem() = 0;
-	std::string title() const;
-	std::string creation_time_string() const;
-	std::time_t creation_time() const;
+    KnowledgeItem(std::string title);
+    KnowledgeItem(std::string title, std::time_t creation_time);
+    virtual ~KnowledgeItem() = 0;
+    std::string title() const;
+    std::string creation_time_string() const;
+    std::time_t creation_time() const;
 
-	virtual std::ostream& output(std::ostream& out);
+    virtual std::ostream& output(std::ostream& out);
 
-	virtual void save_to(BaseStorageSaver& storage);
+    virtual void save_to(BaseStorageSaver& storage);
 
     virtual double match(SearchCriteria<std::string, std::time_t> *criteria);
 protected:
