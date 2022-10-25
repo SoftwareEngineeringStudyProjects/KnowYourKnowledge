@@ -55,16 +55,16 @@ inline KnowledgeItemPtr StreamStorageLoader<
     InStreamT>::load() {
   KnowledgeItemPtr result = nullptr;
   std::string line;
-  instream_.getline(line);
+  getline(instream_, line);
   Timestamp creationTime = time_from_string(line);
   std::string title;
-  instream_.getline(title);
+  getline(instream_, title);
   std::string text = "";
 
   Directory* dir = nullptr;
 
   while(true) {
-    instream_.getline(line);
+    getline(instream_, line);
     string_helper::trim(line);
     if (line.empty()) { // next item?
       if (!result) { // no text - default to TextNote
