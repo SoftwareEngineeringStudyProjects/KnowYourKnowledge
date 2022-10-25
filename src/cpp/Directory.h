@@ -15,6 +15,7 @@
 class Directory: public KnowledgeItem {
 public:
 	Directory(const std::string& title);
+	Directory(const std::string& title, std::time_t creationTime);
 	virtual ~Directory();
 
 	Directory& add(KnowledgeItemPtr item);
