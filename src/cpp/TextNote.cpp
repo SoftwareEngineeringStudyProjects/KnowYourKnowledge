@@ -117,7 +117,7 @@ TEST_CASE("Match with criteria with matching and non-matching conditions") {
     SearchCriteria<std::string, std::time_t> criteria;
     criteria.addEqualToCheck<std::string>("title", "nine");
     criteria.addEqualToCheck<std::string>("title", "a");
-    CHECK(item.match(&criteria) == 0.75);
+    CHECK(item.match(&criteria) == 0.5);
 }
 
 TEST_CASE("Match with criteria with matching and non-matching type conditions") {
@@ -125,5 +125,5 @@ TEST_CASE("Match with criteria with matching and non-matching type conditions") 
     SearchCriteria<std::string, std::time_t> criteria;
     criteria.addEqualToCheck<std::string>("nine");
     criteria.addEqualToCheck<std::string>("a");
-    CHECK(item.match(&criteria) == 0.5);
+    CHECK(item.match(&criteria) == 0.25);
 }
