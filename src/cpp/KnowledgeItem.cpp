@@ -50,7 +50,7 @@ void KnowledgeItem::save_to(BaseStorageSaver &storage) {
 
 
 std::pair<int, int> KnowledgeItem::_match(SearchCriteria<std::string, std::time_t> *criteria) {
-    double passed = 0, total = 0;
+    int passed = 0, total = 0;
     for (const auto &condition: criteria->get("title")) {
         if (condition(_title)) ++passed;
         ++total;
