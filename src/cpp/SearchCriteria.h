@@ -10,6 +10,8 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <functional>
+#include <variant>
 
 template<typename... T>
 using searchCondition = std::function<bool(std::variant<T...>)>;
