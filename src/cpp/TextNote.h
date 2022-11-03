@@ -25,6 +25,8 @@ public:
 
 private:
 	std::string _text;
+
+    virtual MatchResult _match(SearchCriteria<std::string, std::time_t> *criteria) override;
 };
 
 #endif /* TEXTNOTE_H_ */
