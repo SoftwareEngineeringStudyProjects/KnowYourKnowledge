@@ -42,5 +42,27 @@ TEST_CASE("fixed time, convert to/from string") {
 
 }
 
+TEST_CASE("check time difference") {
+  std::string start_str = "2023.09.13 14:33:33";
+  std::string end_str;
+  int expected_diff_s;
+  SUBCASE("1 minute") {
+    end_str = "2023.09.13 14:34:33";
+    expected_diff_s = 60;
+  }
+  SUBCASE("1 hour") {
+    end_str = "2023.09.13 15:33:33";
+    expected_diff_s = 60*60;
+  }
+  SUBCASE("1 day") {
+    end_str = "2023.09.14 14:33:33";
+    expected_diff_s = 24*60*60;
+  }
 
+  Timestamp start_time = time_from_string(start_str);
+  Timestamp end_time = time_from_string(end_str);
+
+  CHECK(end_time - start_time == expected_diff_s);
+
+}
 
