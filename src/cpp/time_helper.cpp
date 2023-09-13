@@ -27,5 +27,6 @@ Timestamp time_from_string(const std::string& time_str) {
 
 	tm.tm_year -= 1900; //1900 -> 0, 2022 -> 122
 	tm.tm_mon -= 1; //January = 0
+	tm.tm_isdst = -1; // The value is positive if DST is in effect, zero if not and negative if no information is available
 	return std::mktime(&tm);
 }

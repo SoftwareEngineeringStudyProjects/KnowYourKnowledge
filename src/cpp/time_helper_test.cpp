@@ -27,5 +27,20 @@ TEST_CASE("get current time, convert to/from string") {
 
 }
 
+TEST_CASE("fixed time, convert to/from string") {
+  std::string fixed_str;
+  SUBCASE("September") { // should use DST
+    fixed_str = "2023.09.13 14:33:33";
+  }
+  SUBCASE("January") { // no DST
+    fixed_str = "2023.01.13 14:33:33";
+  }
+
+  std::string converted = time_to_string(time_from_string(fixed_str));
+  std::cout<<" time (converted) is "<< converted<<" ."<<std::endl;
+  CHECK(converted == fixed_str);
+
+}
+
 
 
