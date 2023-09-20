@@ -101,7 +101,18 @@ void CommandLineProcessor::setConfigParameter(const std::string &key,
 
 TEST_CASE("imitate CLI call - add note") {
   char* simulatedArgv[3] = {"ky", "add", "note"};
-  std::stringstream instream {"note body from std::stringstream\nused in test\nshould be added as note\n\n"};
+  std::string expected_text = "note body from std::stringstream\nused in test\nshould be added as note\n";
+  std::stringstream instream {expected_text + "\n"};
   CommandLineProcessor::run(3, simulatedArgv, instream); // requires user input
+
+  auto path_and_dir = get_current_collection_path_and_dir();
+  std::string collectionFilePath = path_and_dir.first;
+  TextNoteCollection currentCollection = FileBuilder::collectionFromFile(collectionFilePath);
+  TextNote lastNote = currentCollection.get(currentCollection.size()-1);
+  CHECK(lastNote.title() == "note");
+  CHECK(lastNote.text() == expected_text);
+
+
+
 }
 
