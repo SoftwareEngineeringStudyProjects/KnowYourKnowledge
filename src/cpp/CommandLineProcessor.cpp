@@ -5,6 +5,8 @@
 #include "TextNote.h"
 #include "TextNoteCollection.h"
 
+#include <sstream>
+
 #include <cstring>
 
 #include "doctest.h"
@@ -90,6 +92,7 @@ void CommandLineProcessor::setConfigParameter(const std::string &key,
 
 TEST_CASE("imitate CLI call - add note") {
   char* simulatedArgv[3] = {"ky", "add", "note"};
-  CommandLineProcessor::run(3, simulatedArgv); // requires user input
+  std::stringstream instream {"note body from std::stringstream\nused in test\nshould be added as note\n\n"};
+  CommandLineProcessor::run(3, simulatedArgv, instream); // requires user input
 }
 
