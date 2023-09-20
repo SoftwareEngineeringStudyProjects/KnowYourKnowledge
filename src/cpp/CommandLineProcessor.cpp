@@ -6,6 +6,7 @@
 #include "TextNoteCollection.h"
 
 #include <sstream>
+#include <utility> //std::pair
 
 #include <cstring>
 
@@ -45,6 +46,19 @@ void CommandLineProcessor::run(int argc, char **argv, std::istream& instream) {
     }
 }
 
+std::pair<std::string, std::string> get_current_collection_path_and_dir() {
+  // Loading current collection name from config
+  Config config;
+  config.readFromFile(CONFIG_FILE_PATH_NAME);
+
+  std::string currentCollectionTitle = config.get(COLLECTION_KEY);
+  std::string collectionDir = config.get(COLLECTION_DIR_KEY);
+  std::string collectionFilePath = FileBuilder::getFileName(currentCollectionTitle,collectionDir);
+
+//    std::cout<<"loading collection from "<<collectionFilePath<<std::endl;
+  return {collectionFilePath, collectionDir};
+}
+
 void CommandLineProcessor::addNote(const std::string &title, std::istream& instream) {
     // Reading a new text note from command line
     std::string text, line;
@@ -54,14 +68,9 @@ void CommandLineProcessor::addNote(const std::string &title, std::istream& instr
     }
     TextNote newTextNote(title, text);
 
-    // Loading current collection name from config
-    Config config;
-    config.readFromFile(CONFIG_FILE_PATH_NAME);
-
-    std::string currentCollectionTitle = config.get(COLLECTION_KEY);
-    std::string collectionDir = config.get(COLLECTION_DIR_KEY);
-    std::string collectionFilePath = FileBuilder::getFileName(currentCollectionTitle,collectionDir);
-//    std::cout<<"loading collection from "<<collectionFilePath<<std::endl;
+    auto path_and_dir = get_current_collection_path_and_dir();
+    std::string collectionFilePath = path_and_dir.first;
+    std::string collectionDir = path_and_dir.second;
 
     // Saving the text note to current collection
     TextNoteCollection currentCollection = FileBuilder::collectionFromFile(collectionFilePath);
