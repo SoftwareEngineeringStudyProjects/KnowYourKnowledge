@@ -4,14 +4,14 @@
 #include "FileBuilder.h"
 #include "TextNote.h"
 #include "TextNoteCollection.h"
-#include <iostream>
+
 #include <cstring>
 
 #include "doctest.h"
 
 
 
-void CommandLineProcessor::run(int argc, char **argv) {
+void CommandLineProcessor::run(int argc, char **argv, std::istream& instream) {
   if (strcmp(argv[1], SET_PARAMETER_NAME) == 0)   {
     if (argc != 4) {
       std::cerr<<"set command requires two additional parameters: set <key> <value>"<<std::endl;
@@ -33,7 +33,7 @@ void CommandLineProcessor::run(int argc, char **argv) {
         if (strcmp(argv[i], ADD_NOTE_NAME) == 0) {
             std::cout<<"add mode"<<std::endl;
             std::string addNoteTitle(argv[++i]);
-            addNote(addNoteTitle);
+            addNote(addNoteTitle, instream);
         }
         /*
         else if (argv[i] == SEARCH_NOTE_NAME) {
@@ -43,11 +43,11 @@ void CommandLineProcessor::run(int argc, char **argv) {
     }
 }
 
-void CommandLineProcessor::addNote(const std::string &title) {
+void CommandLineProcessor::addNote(const std::string &title, std::istream& instream) {
     // Reading a new text note from command line
     std::string text, line;
     std::cout << "Please, enter the text of a new note:" << std::endl;
-    while (getline(std::cin, line) && !line.empty()) {
+    while (getline(instream, line) && !line.empty()) {
         text += line+'\n';
     }
     TextNote newTextNote(title, text);
@@ -88,8 +88,8 @@ void CommandLineProcessor::setConfigParameter(const std::string &key,
   std::cout<<"Set config parameter key="<<key<<", value="<<value<<std::endl;
 }
 
-//TEST_CASE("imitate CLI call - add note") {
-//  char* simulatedArgv[3] = {"ky", "add", "note"};
-//  CommandLineProcessor::run(3, simulatedArgv);
-//}
+TEST_CASE("imitate CLI call - add note") {
+  char* simulatedArgv[3] = {"ky", "add", "note"};
+  CommandLineProcessor::run(3, simulatedArgv); // requires user input
+}
 
