@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <utility> //std::pair
+#include <vector>
 
 #include <cstring>
 
@@ -99,14 +100,42 @@ void CommandLineProcessor::setConfigParameter(const std::string &key,
   std::cout<<"Set config parameter key="<<key<<", value="<<value<<std::endl;
 }
 
+template<typename T>
+bool is_prefix_vector(const std::vector<T>& vector1, const std::vector<T>& vector2) {
+  if (vector1.size() > vector2.size() ) {
+    return false; // size of prefix can't be greater
+  }
+  for(std::size_t i = 0; i < vector1.size(); i++) {
+    T item1 = vector1[i];
+    T item2 = vector2[i];
+    if (item1 != item2) {
+      return false; // items don't match
+    }
+  }
+  return true;
+}
+
+TEST_CASE("comparing vector prefix") {
+  std::vector<int> vec1 {1,2,3,4,5};
+  std::vector<int> vec2 {1,2,3,4};
+  std::vector<int> vec3 {1,2,3,4,7};
+
+  CHECK(is_prefix_vector(vec2, vec1));
+  CHECK(is_prefix_vector(vec2, vec3));
+  CHECK(! is_prefix_vector(vec1, vec3));
+  CHECK(! is_prefix_vector(vec1, vec2));
+}
+
 TEST_CASE("imitate CLI call - add note") {
+  auto path_and_dir = get_current_collection_path_and_dir();
+  std::string collectionFilePath = path_and_dir.first;
+
+
   char* simulatedArgv[3] = {"ky", "add", "note"};
   std::string expected_text = "note body from std::stringstream\nused in test\nshould be added as note\n";
   std::stringstream instream {expected_text + "\n"};
   CommandLineProcessor::run(3, simulatedArgv, instream); // requires user input
 
-  auto path_and_dir = get_current_collection_path_and_dir();
-  std::string collectionFilePath = path_and_dir.first;
   TextNoteCollection currentCollection = FileBuilder::collectionFromFile(collectionFilePath);
   TextNote lastNote = currentCollection.get(currentCollection.size()-1);
   CHECK(lastNote.title() == "note");
