@@ -83,6 +83,11 @@ TEST_CASE("loading note with empty title causes exception") {
     }
   }
 
+  SUBCASE("check with custom macro") {
+    CHECK_THROWS_WITH_AS (loader.load(), "Title can't be empty", std::runtime_error);
+  }
+
+
 }
 
 TEST_CASE("load directory from string") {
