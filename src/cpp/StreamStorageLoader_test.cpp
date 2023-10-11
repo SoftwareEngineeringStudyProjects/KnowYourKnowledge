@@ -63,7 +63,7 @@ TEST_CASE("empty title") {
   try {
     KnowledgeItemPtr item = loader.load();
   }
-  catch(std::runtime_error ex) {
+  catch(const std::runtime_error& ex) {
     CHECK(std::string(ex.what())=="Title can't be empty");
   }
 
