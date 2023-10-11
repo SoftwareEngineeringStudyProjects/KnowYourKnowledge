@@ -8,6 +8,7 @@
 #include <sstream>
 #include <utility> //std::pair
 #include <vector>
+#include <stdexcept>
 
 #include <cstring>
 
@@ -98,6 +99,25 @@ void CommandLineProcessor::setConfigParameter(const std::string &key,
   config.set(key, value);
   config.writeToFile(CONFIG_FILE_PATH_NAME);
   std::cout<<"Set config parameter key="<<key<<", value="<<value<<std::endl;
+}
+
+std::vector<std::string> readLinesFromFile(const std::string& filename) {
+    std::vector<std::string> lines;
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Cannot open file: " + filename);
+        return lines;
+    }
+    std::string line;
+    while (std::getline(file, line)) {
+        lines.push_back(line);
+    }
+    file.close();
+    return lines;
+}
+
+TEST_CASE("reading file throws exception for non-existant file") {
+  CHECK_THROWS_WITH_AS(readLinesFromFile("none.none"),  "Cannot open file: none.none", std::runtime_error);
 }
 
 template<typename T>
