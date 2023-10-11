@@ -1,4 +1,7 @@
 #include "FileBuilder.h"
+
+#include "time_helper.h"
+
 #include <cassert>
 
 
@@ -88,7 +91,7 @@ std::time_t FileBuilder::readCreationTime(std::ifstream& file) {
 	std::string line;
 
 	std::getline(file, line);
-	std::time_t time = fromDateFormat(line);
+	std::time_t time = time_from_string(line);
 	assert (time != -1);
 	return time;
 }
@@ -124,15 +127,15 @@ std::string FileBuilder::toDateFormat(std::time_t time) {
 	return std::string(date);
 }
 
-std::time_t FileBuilder::fromDateFormat(std::string str) {
-	struct std::tm tm;
-	std::sscanf(str.c_str(), "%d.%d.%d %d:%d:%d", &tm.tm_year,
-			&tm.tm_mon, &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
-
-	tm.tm_year -= 1900; //1900 -> 0, 2022 -> 122
-	tm.tm_mon -= 1; //January = 0
-	return std::mktime(&tm);
-}
+//std::time_t FileBuilder::fromDateFormat(std::string str) {
+//	struct std::tm tm;
+//	std::sscanf(str.c_str(), "%d.%d.%d %d:%d:%d", &tm.tm_year,
+//			&tm.tm_mon, &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
+//
+//	tm.tm_year -= 1900; //1900 -> 0, 2022 -> 122
+//	tm.tm_mon -= 1; //January = 0
+//	return std::mktime(&tm);
+//}
 
 
 void FileBuilder::toFile(TextNoteCollection* collection, std::string path) {

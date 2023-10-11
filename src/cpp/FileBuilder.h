@@ -21,7 +21,7 @@ public:
 	static void toFile(TextNoteCollection* collection, std::string path = "");
 	static TextNoteCollection collectionFromFile(std::string filename);
 	static std::string toDateFormat(std::time_t time);
-	static std::time_t fromDateFormat(std::string str);
+	//static std::time_t fromDateFormat(std::string str);
 	static std::string getFileName(std::string name, std::string path = "");
 private:
 	static constexpr const char* TEXT_FILE_EXTENSION = "txt";
