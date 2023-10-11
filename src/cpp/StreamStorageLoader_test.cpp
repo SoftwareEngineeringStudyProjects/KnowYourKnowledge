@@ -60,15 +60,28 @@ TEST_CASE("loading note with empty title causes exception") {
 
   std::istringstream instream{input};
   StreamStorageLoader<std::istringstream> loader {instream};
-  bool exception_caught = false;
-  try {
-    KnowledgeItemPtr item = loader.load();
+
+  SUBCASE("check with bool variable") {
+    bool exception_caught = false;
+    try {
+      KnowledgeItemPtr item = loader.load();
+    }
+    catch(const std::runtime_error& ex) {
+      CHECK(std::string(ex.what())=="Title can't be empty");
+      exception_caught = true;
+    }
+    CHECK(exception_caught);
   }
-  catch(const std::runtime_error& ex) {
-    CHECK(std::string(ex.what())=="Title can't be empty");
-    exception_caught = true;
+
+  SUBCASE("check for unreachable code") {
+    try {
+      KnowledgeItemPtr item = loader.load();
+      CHECK(false); // this should be unreachable
+    }
+    catch(const std::runtime_error& ex) {
+      CHECK(std::string(ex.what())=="Title can't be empty");
+    }
   }
-  CHECK(exception_caught);
 
 }
 

@@ -61,8 +61,8 @@ inline KnowledgeItemPtr StreamStorageLoader<
   std::string title;
   getline(instream_, title);
   if (title.empty()) {
-    //throw std::runtime_error("Title can't be empty");
-     title = "__default__"; // for checking that exceptions are required
+    throw std::runtime_error("Title can't be empty");
+    // title = "__default__"; // for checking that exceptions are required
   }
   std::string text = "";
 
