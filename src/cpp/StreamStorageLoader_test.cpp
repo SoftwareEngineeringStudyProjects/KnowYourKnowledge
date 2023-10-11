@@ -45,7 +45,7 @@ TEST_CASE("load textnote from string") {
 
 }
 
-TEST_CASE("empty title") {
+TEST_CASE("loading note with empty title causes exception") {
   Timestamp now = current_time();
   std::string current_time_str = time_to_string(now);
   std::string text;
@@ -60,12 +60,15 @@ TEST_CASE("empty title") {
 
   std::istringstream instream{input};
   StreamStorageLoader<std::istringstream> loader {instream};
+  bool exception_caught = false;
   try {
     KnowledgeItemPtr item = loader.load();
   }
   catch(const std::runtime_error& ex) {
     CHECK(std::string(ex.what())=="Title can't be empty");
+    exception_caught = true;
   }
+  CHECK(exception_caught);
 
 }
 
