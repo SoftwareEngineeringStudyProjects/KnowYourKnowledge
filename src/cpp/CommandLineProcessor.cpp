@@ -123,12 +123,14 @@ TEST_CASE("reading file throws exception for non-existant file") {
 template<typename T>
 bool is_prefix_vector(const std::vector<T>& vector1, const std::vector<T>& vector2) {
   if (vector1.size() > vector2.size() ) {
+    std::cout << "prefix size = "<< vector1.size() << " greater than other size = " << vector2.size() << std::endl;
     return false; // size of prefix can't be greater
   }
   for(std::size_t i = 0; i < vector1.size(); i++) {
     T item1 = vector1[i];
     T item2 = vector2[i];
     if (item1 != item2) {
+      std::cout<< "first difference at index " << i <<", prefix item = " << item1 << ", other item = " << item2 << std::endl;
       return false; // items don't match
     }
   }
@@ -150,16 +152,22 @@ TEST_CASE("imitate CLI call - add note") {
   auto path_and_dir = get_current_collection_path_and_dir();
   std::string collectionFilePath = path_and_dir.first;
 
+  std::vector<std::string> linesBefore = readLinesFromFile(collectionFilePath);
 
   char* simulatedArgv[3] = {"ky", "add", "note"};
   std::string expected_text = "note body from std::stringstream\nused in test\nshould be added as note\n";
   std::stringstream instream {expected_text + "\n"};
   CommandLineProcessor::run(3, simulatedArgv, instream); // requires user input
 
+  std::vector<std::string> linesAfter = readLinesFromFile(collectionFilePath);
+
   TextNoteCollection currentCollection = FileBuilder::collectionFromFile(collectionFilePath);
   TextNote lastNote = currentCollection.get(currentCollection.size()-1);
   CHECK(lastNote.title() == "note");
   CHECK(lastNote.text() == expected_text);
+
+  CHECK(is_prefix_vector(linesBefore, linesAfter)); // can add new lines, but can't change existing lines
+
 
 
 
