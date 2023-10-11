@@ -35,7 +35,7 @@
 	 file << title << "\n";
  }
  void FileBuilder::writeCreationTime(std::ofstream& file, std::time_t creation_time) {
- 	 file << toDateFormat(creation_time) << "\n";
+ 	 file << time_to_string(creation_time) << "\n";
  }
  void FileBuilder::writeText(std::ofstream& file, TextNote* note) {
 	 std::string line;
@@ -119,24 +119,6 @@ void FileBuilder::removeEmptyLineCharIfExtra(std::string& line) {
 		line.pop_back();
 	}
 }
-
-std::string FileBuilder::toDateFormat(std::time_t time) {
-	const unsigned int maxChar = 20;
-	char date[maxChar];
-	std::strftime(date, sizeof(date), "%Y.%m.%d %H:%M:%S", std::localtime(&time));
-	return std::string(date);
-}
-
-//std::time_t FileBuilder::fromDateFormat(std::string str) {
-//	struct std::tm tm;
-//	std::sscanf(str.c_str(), "%d.%d.%d %d:%d:%d", &tm.tm_year,
-//			&tm.tm_mon, &tm.tm_mday, &tm.tm_hour, &tm.tm_min, &tm.tm_sec);
-//
-//	tm.tm_year -= 1900; //1900 -> 0, 2022 -> 122
-//	tm.tm_mon -= 1; //January = 0
-//	return std::mktime(&tm);
-//}
-
 
 void FileBuilder::toFile(TextNoteCollection* collection, std::string path) {
 	std::ofstream file = createFile(collection->title(), path);
