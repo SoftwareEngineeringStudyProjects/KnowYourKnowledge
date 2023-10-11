@@ -14,6 +14,7 @@
 #include "time_helper.h"
 
 #include <string>
+#include <stdexcept>
 
 
 template<typename InStreamT>
@@ -59,6 +60,9 @@ inline KnowledgeItemPtr StreamStorageLoader<
   Timestamp creationTime = time_from_string(line);
   std::string title;
   getline(instream_, title);
+  if (title.empty()) {
+    throw std::runtime_error("Title can't be empty");
+  }
   std::string text = "";
 
   Directory* dir = nullptr;

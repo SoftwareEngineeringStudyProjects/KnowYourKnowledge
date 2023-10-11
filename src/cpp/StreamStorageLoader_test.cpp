@@ -45,6 +45,30 @@ TEST_CASE("load textnote from string") {
 
 }
 
+TEST_CASE("empty title") {
+  Timestamp now = current_time();
+  std::string current_time_str = time_to_string(now);
+  std::string text;
+  SUBCASE("note without text") {
+    text = "";
+  }
+  SUBCASE("note with text") {
+    text = "this is text\ntext\n";
+  }
+  std::string input = current_time_str + "\n\n" + text;
+
+
+  std::istringstream instream{input};
+  StreamStorageLoader<std::istringstream> loader {instream};
+  try {
+    KnowledgeItemPtr item = loader.load();
+  }
+  catch(std::runtime_error ex) {
+    CHECK(std::string(ex.what())=="Title can't be empty");
+  }
+
+}
+
 TEST_CASE("load directory from string") {
   std::string current_time_str = time_to_string(current_time());
 
