@@ -26,9 +26,9 @@ public:
     bool is_text_file() const;
 
 private:
+    std::string _filepath;
     std::string _filename;
     std::string _extension;
-    std::string _filepath;
     bool _is_text_file;
 };
 

@@ -17,7 +17,7 @@ std::string File::extension() const {
 
 File::File(const std::string &filepath, const std::string &filename,
            const std::string &extension, bool is_text_file) : KnowledgeItem(filename + extension), _filepath(filepath),
-                                                              _extension(extension), _filename(filename),
+                                                              _filename(filename), _extension(extension),
                                                               _is_text_file(is_text_file) {
 }
 
