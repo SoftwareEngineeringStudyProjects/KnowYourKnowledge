@@ -79,7 +79,7 @@ private:
 
     static searchCondition<T...> contains(const std::string &value) {
         return [value](std::variant<T...> variant) {
-            return value.find(std::get<std::string>(variant)) != -1;
+            return value.find(std::get<std::string>(variant)) != std::string::npos;
         };
     }
 
