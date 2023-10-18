@@ -8,7 +8,7 @@
 
 struct MatchResult {
 public:
-    MatchResult(int total, int passed) : _passed(passed), _total(total) {}
+    MatchResult(int total, int passed) : _total(total), _passed(passed) {}
 
     int total() const {
         return _total;
