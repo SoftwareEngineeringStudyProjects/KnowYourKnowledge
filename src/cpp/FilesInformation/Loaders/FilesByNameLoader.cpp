@@ -8,13 +8,13 @@
 File *FilesByNameLoader::loadFile(const std::string &filepath) {
     std::string filename = getFileName(filepath);
     size_t point = filename.find_first_of('.');
-    if (point == -1) return new File(filepath, filename, "", isTextFile(filepath));
+    if (point == std::string::npos) return new File(filepath, filename, "", isTextFile(filepath));
     return new File(filepath, filename.substr(0, point), filename.substr(point + 1), isTextFile(filepath));
 }
 
 std::string FilesByNameLoader::getFileName(const std::string &filepath) {
     size_t slash = filepath.find_last_of(_separator);
-    if (slash == -1) return {filepath};
+    if (slash == std::string::npos) return {filepath};
     return filepath.substr(slash + 1);
 }
 
