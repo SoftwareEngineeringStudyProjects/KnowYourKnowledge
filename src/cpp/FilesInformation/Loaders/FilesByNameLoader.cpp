@@ -3,6 +3,9 @@
 //
 #include "FilesByNameLoader.h"
 #include "../../doctest.h"
+#include "EncodingDetector/text_encoding_detect.h"
+#include <fstream>
+#include <filesystem>
 
 
 File *FilesByNameLoader::loadFile(const std::string &filepath) {

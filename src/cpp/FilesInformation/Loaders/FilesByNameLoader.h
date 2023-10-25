@@ -7,9 +7,7 @@
 
 
 #include "FilesLoader.h"
-#include "EncodingDetector/text_encoding_detect.h"
-#include <fstream>
-#include <filesystem>
+
 
 class FilesByNameLoader : public FilesLoader {
 public:
