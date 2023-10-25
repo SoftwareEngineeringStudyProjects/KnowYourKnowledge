@@ -4,6 +4,7 @@
 
 #include "FilesLoader.h"
 #include "../../doctest.h"
+#include <filesystem>
 
 Directory *FilesLoader::loadDirectory(const std::string &filepath) {
     if (!std::filesystem::exists(filepath)) return nullptr;
