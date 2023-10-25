@@ -15,6 +15,8 @@ public:
     virtual File *loadFile(const std::string &filepath) = 0;
 
     Directory *loadDirectory(const std::string &filepath);
+
+    virtual ~FilesLoader() {}
 };
 
 
