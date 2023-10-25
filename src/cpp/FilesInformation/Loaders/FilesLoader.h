@@ -16,7 +16,7 @@ public:
 
     Directory *loadDirectory(const std::string &filepath);
 
-    virtual ~FilesLoader() {}
+    virtual ~FilesLoader() = default;
 };
 
 
