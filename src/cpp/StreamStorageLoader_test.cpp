@@ -65,6 +65,7 @@ TEST_CASE("loading note with empty title causes exception") {
     bool exception_caught = false;
     try {
       KnowledgeItemPtr item = loader.load();
+      CHECK(item->title() == ""); // this should not execute
     }
     catch(const std::runtime_error& ex) {
       CHECK(std::string(ex.what())=="Title can't be empty");
@@ -77,6 +78,7 @@ TEST_CASE("loading note with empty title causes exception") {
     try {
       KnowledgeItemPtr item = loader.load();
       CHECK(false); // this should be unreachable
+      CHECK(item->title() == ""); // this should not execute
     }
     catch(const std::runtime_error& ex) {
       CHECK(std::string(ex.what())=="Title can't be empty");
