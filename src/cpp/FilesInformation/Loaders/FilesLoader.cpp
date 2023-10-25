@@ -3,7 +3,6 @@
 //
 
 #include "FilesLoader.h"
-#include "../../doctest.h"
 #include <filesystem>
 
 Directory *FilesLoader::loadDirectory(const std::string &filepath) {
@@ -20,3 +19,6 @@ Directory *FilesLoader::loadDirectory(const std::string &filepath) {
     }
     return directory;
 }
+
+// unit tests for FilesLoader::loadDirectory available in FilesByNameLoader.cpp (subclass implementation)
+// reason: this is abstract class, can't create instance
