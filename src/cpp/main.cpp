@@ -14,7 +14,7 @@
 #include "doctest.h"
 #include <iostream>
 
-int main(int argc, const char** argv) {
+int main(int argc, char** argv) {
 
     doctest::Context context;
 
@@ -29,7 +29,7 @@ int main(int argc, const char** argv) {
     int client_stuff_return_code = 0;
     // your program - if the testing framework is integrated in your production code
 
-    CommandLineProcessor::run(argc, argv);
+    CommandLineProcessor::run(argc, const_cast<const char**>(argv));
 
 
 
