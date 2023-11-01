@@ -16,7 +16,7 @@
 
 
 
-void CommandLineProcessor::run(int argc, char **argv, std::istream& instream) {
+void CommandLineProcessor::run(int argc, const char **argv, std::istream& instream) {
   if (strcmp(argv[1], SET_PARAMETER_NAME) == 0)   {
     if (argc != 4) {
       std::cerr<<"set command requires two additional parameters: set <key> <value>"<<std::endl;
@@ -154,7 +154,7 @@ TEST_CASE("imitate CLI call - add note") {
 
   std::vector<std::string> linesBefore = readLinesFromFile(collectionFilePath);
 
-  char* simulatedArgv[3] = {"ky", "add", "note"};
+  const char* simulatedArgv[3] = {"ky", "add", "note"};
   std::string expected_text = "note body from std::stringstream\nused in test\nshould be added as note\n";
   std::stringstream instream {expected_text + "\n"};
   CommandLineProcessor::run(3, simulatedArgv, instream); // requires user input

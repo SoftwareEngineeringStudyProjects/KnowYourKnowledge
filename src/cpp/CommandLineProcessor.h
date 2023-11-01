@@ -12,7 +12,7 @@ private:
     static void addCollection(const std::string &title, const std::string &path);
     // search_method(criteria);
 public:
-    static void run(int argc, char** argv, std::istream& instream = std::cin);
+    static void run(int argc, const char** argv, std::istream& instream = std::cin);
 };
 
 #endif //KNOWYOURKNOWLEDGE_COMMANDLINEPROCESSOR_H

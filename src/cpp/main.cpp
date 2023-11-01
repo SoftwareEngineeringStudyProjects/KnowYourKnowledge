@@ -14,7 +14,7 @@
 #include "doctest.h"
 #include <iostream>
 
-int main(int argc, char** argv) {
+int main(int argc, const char** argv) {
 
     doctest::Context context;
 
