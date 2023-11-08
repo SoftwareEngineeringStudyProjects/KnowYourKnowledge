@@ -29,11 +29,12 @@ int main(int argc, char** argv) {
     int client_stuff_return_code = 0;
     // your program - if the testing framework is integrated in your production code
 
+    //std::cout<<"Unit tests done, running CommandLineProcessor..."<<std::endl; // uncomment for debug purposes
+
     CommandLineProcessor::run(argc, const_cast<const char**>(argv));
 
+    //std::cout<<"CommandLineProcessor done, running extra code..."<<std::endl;
 
-
-    std::cout<<"123"<<std::endl;
     TextNote note("hello");
     note.print();
 
