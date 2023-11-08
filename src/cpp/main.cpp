@@ -35,10 +35,11 @@ int main(int argc, char** argv) {
 
     //std::cout<<"CommandLineProcessor done, running extra code..."<<std::endl;
 
-    TextNote note("hello");
-    note.print();
+
 
     // TextNote wrong(""); // FAILS: assertion failure (empty title)
+
+    TextNote note("hello");
 
     TextNote note2("test1", "``Message``");
     TextNote note3("test2", "```");

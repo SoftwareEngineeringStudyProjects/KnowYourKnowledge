@@ -26,6 +26,12 @@ void TextNote::print() const {
 	std::cout<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string()<<std::endl;
 }
 
+TEST_CASE("printing note") {
+  TextNote note("hello");
+  note.print();
+}
+
+
 std::ostream& TextNote::output(std::ostream &out) {
 	KnowledgeItem::output(out);
 	out<<text()<<std::endl;
