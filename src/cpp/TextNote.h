@@ -19,7 +19,7 @@ public:
 	TextNote(std::string title, std::string text = "");
 	TextNote(std::string title, std::string text, std::time_t creation_time);
 	std::string text() const;
-	void print() const;
+	void print(std::ostream &out = std::cout) const;
 	std::ostream& output(std::ostream &out) override;
 	void save_to(BaseStorageSaver &storage) override;
 

@@ -22,8 +22,8 @@ std::string TextNote::text() const {
 	return _text;
 }
 
-void TextNote::print() const {
-	std::cout<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string()<<std::endl;
+void TextNote::print(std::ostream &out) const {
+	out<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string()<<std::endl;
 }
 
 TEST_CASE("printing note") {
