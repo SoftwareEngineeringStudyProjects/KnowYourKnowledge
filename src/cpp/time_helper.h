@@ -16,7 +16,7 @@ using Timestamp = std::time_t;
 Timestamp current_time();
 
 std::string time_to_string(Timestamp time);
-
+std::string time_to_string_detailed(Timestamp time);
 
 Timestamp time_from_string(const std::string& time_str);
 

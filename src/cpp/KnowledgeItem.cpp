@@ -33,7 +33,7 @@ std::time_t KnowledgeItem::creation_time() const{
 }
 
 std::string KnowledgeItem::creation_time_string() const {
-	return std::asctime(std::localtime(&_creation_time));
+	return time_to_string_detailed(_creation_time);
 }
 
 std::ostream& KnowledgeItem::KnowledgeItem::output(std::ostream &out) {

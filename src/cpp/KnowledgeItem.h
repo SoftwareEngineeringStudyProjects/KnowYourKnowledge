@@ -11,6 +11,7 @@
 #include "storage_base.h"
 #include "SearchCriteria.h"
 #include "MatchResult.h"
+#include "time_helper.h"
 
 #include <ostream>
 #include <string>

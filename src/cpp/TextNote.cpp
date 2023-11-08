@@ -28,7 +28,10 @@ void TextNote::print(std::ostream &out) const {
 
 TEST_CASE("printing note") {
   TextNote note("hello");
-  note.print();
+  std::stringstream outstream;
+  note.print(outstream);
+  std::cout<<outstream.str(); //TODO: replace with checks
+
 }
 
 

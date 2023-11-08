@@ -19,6 +19,10 @@ std::string time_to_string(Timestamp time) {
 	return std::string(date);
 }
 
+std::string time_to_string_detailed(Timestamp time) {
+  return std::asctime(std::localtime(&time));
+}
+
 //FIXME: hour seems to be wrong, +1 compared to real value
 Timestamp time_from_string(const std::string& time_str) {
 	struct std::tm tm;
