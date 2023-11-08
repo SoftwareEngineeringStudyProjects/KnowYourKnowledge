@@ -81,12 +81,21 @@ TEST_CASE("creating object with fixed creation time") {
 	CHECK(note.creation_time_string() == "Thu Sep 22 15:35:54 2022\n");
 
 	std::stringstream sout;
-	note.output(sout);
-	CHECK(sout.str() ==
-			"Thu Sep 22 15:35:54 2022\n"
-			"hello\n"
-			"this is text\ntext\n"
-			"\n");
+	SUBCASE("output - format used in file") {
+    note.output(sout);
+    CHECK(sout.str() ==
+        "Thu Sep 22 15:35:54 2022\n"
+        "hello\n"
+        "this is text\ntext\n"
+        "\n");
+	}
+  SUBCASE("print - format used for debug") {
+    note.print(sout);
+    CHECK(sout.str() ==
+        "title=hello, text=this is text\ntext\n,created="
+        "Thu Sep 22 15:35:54 2022\n\n" //two endlines - one added by to_string_detailed, another by print
+        );
+  }
 
 }
 
