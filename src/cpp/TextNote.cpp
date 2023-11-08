@@ -30,7 +30,10 @@ TEST_CASE("printing note") {
   TextNote note("hello");
   std::stringstream outstream;
   note.print(outstream);
-  std::cout<<outstream.str(); //TODO: replace with checks
+  //std::cout<<outstream.str(); //TODO: replace with checks
+  Timestamp current = current_time();
+  std::string expected = "title=hello, text=,created="+time_to_string_detailed(current)+"\n";
+  CHECK(outstream.str() == expected);
 
 }
 
