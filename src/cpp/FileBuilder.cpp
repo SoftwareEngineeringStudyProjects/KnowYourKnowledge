@@ -2,6 +2,8 @@
 
 #include "time_helper.h"
 
+#include "doctest.h"
+
 #include <cassert>
 
 
@@ -148,4 +150,43 @@ void FileBuilder::readCollectionNotes(std::ifstream& file, TextNoteCollection& c
 		collection.add(initTextNote(file));
 	}
 }
+
+TEST_CASE("save and load collection") {
+  TextNote note("hello");
+
+  TextNote note2("test1", "``Message``");
+  TextNote note3("test2", "```");
+  TextNote note4("test3", "Message\n\nwith newlines\n");
+
+  TextNoteCollection collection("test");
+  collection.add(note)->add(note2)->add(note3)->add(note4);
+
+  Timestamp current = current_time();
+
+  FileBuilder::toFile(&collection);
+
+
+  TextNoteCollection collection2 = FileBuilder::collectionFromFile(FileBuilder::getFileName("test"));
+
+  CHECK(collection2.title() == "test");
+  CHECK(collection2.creation_time() == current);
+  CHECK(collection2.size() == 4);
+  TextNote child_note = collection2.get(0);
+  CHECK(child_note.title() == "hello");
+  CHECK(child_note.text() == "");
+  CHECK(child_note.creation_time() == current);
+
+  child_note = collection2.get(1);
+  CHECK(child_note.title() == "test1");
+  //CHECK(child_note.text() == "``Message``");
+  CHECK(child_note.creation_time() == current);
+
+  child_note = collection2.get(3);
+  CHECK(child_note.title() == "test3");
+  CHECK(child_note.text() == "Message\n\nwith newlines\n");
+  CHECK(child_note.creation_time() == current);
+
+
+}
+
 
