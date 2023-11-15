@@ -44,6 +44,35 @@ std::ostream& TextNote::output(std::ostream &out) {
 	return out;
 }
 
+TEST_CASE("output for object with fixed creation time") {
+  //1663850154 = Thu Sep 22 15:35:54 2022
+  TextNote note("hello","this is text\ntext\n",1663850154);
+
+  CHECK(note.title() == "hello");
+  CHECK(note.text() == "this is text\ntext\n");
+  CHECK(note.creation_time() == 1663850154);
+  CHECK(note.creation_time_string() == "Thu Sep 22 15:35:54 2022\n");
+
+  std::stringstream sout;
+  SUBCASE("output - format used in file") {
+    note.output(sout);
+    CHECK(sout.str() ==
+        "Thu Sep 22 15:35:54 2022\n"
+        "hello\n"
+        "this is text\ntext\n"
+        "\n");
+  }
+  SUBCASE("print - format used for debug") {
+    note.print(sout);
+    CHECK(sout.str() ==
+        "title=hello, text=this is text\ntext\n,created="
+        "Thu Sep 22 15:35:54 2022\n\n" //two endlines - one added by to_string_detailed, another by print
+        );
+  }
+
+}
+
+
 void TextNote::save_to(BaseStorageSaver &storage) {
 	KnowledgeItem::save_to(storage);
 	storage.save_multiline(text());
@@ -71,33 +100,7 @@ MatchResult TextNote::_match(SearchCriteria<std::string, std::time_t> *criteria)
     return MatchResult(total, passed);
 }
 
-TEST_CASE("creating object with fixed creation time") {
-	//1663850154 = Thu Sep 22 15:35:54 2022
-	TextNote note("hello","this is text\ntext\n",1663850154);
 
-	CHECK(note.title() == "hello");
-	CHECK(note.text() == "this is text\ntext\n");
-	CHECK(note.creation_time() == 1663850154);
-	CHECK(note.creation_time_string() == "Thu Sep 22 15:35:54 2022\n");
-
-	std::stringstream sout;
-	SUBCASE("output - format used in file") {
-    note.output(sout);
-    CHECK(sout.str() ==
-        "Thu Sep 22 15:35:54 2022\n"
-        "hello\n"
-        "this is text\ntext\n"
-        "\n");
-	}
-  SUBCASE("print - format used for debug") {
-    note.print(sout);
-    CHECK(sout.str() ==
-        "title=hello, text=this is text\ntext\n,created="
-        "Thu Sep 22 15:35:54 2022\n\n" //two endlines - one added by to_string_detailed, another by print
-        );
-  }
-
-}
 
 TEST_CASE("Match with empty criteria") {
     TextNote item("a");
