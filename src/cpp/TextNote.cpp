@@ -23,7 +23,8 @@ std::string TextNote::text() const {
 }
 
 void TextNote::print(std::ostream &out) const {
-	out<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string()<<std::endl;
+	out<<"title="<<title()<<", text="<<text()<<",created="<<creation_time_string();
+	// creation_time_string outputs endline - no need to add another one
 }
 
 TEST_CASE("printing note") {
@@ -32,7 +33,7 @@ TEST_CASE("printing note") {
   note.print(outstream);
   //std::cout<<outstream.str(); //TODO: replace with checks
   Timestamp current = current_time();
-  std::string expected = "title=hello, text=,created="+time_to_string_detailed(current)+"\n";
+  std::string expected = "title=hello, text=,created="+time_to_string_detailed(current);
   CHECK(outstream.str() == expected);
 
 }
@@ -66,7 +67,7 @@ TEST_CASE("output for object with fixed creation time") {
     note.print(sout);
     CHECK(sout.str() ==
         "title=hello, text=this is text\ntext\n,created="
-        "Thu Sep 22 15:35:54 2022\n\n" //two endlines - one added by to_string_detailed, another by print
+        "Thu Sep 22 15:35:54 2022\n" //single endline, not two
         );
   }
 
