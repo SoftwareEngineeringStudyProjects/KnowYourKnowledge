@@ -8,6 +8,7 @@
 #ifndef TEXTNOTECOLLECTION_H_
 #define TEXTNOTECOLLECTION_H_
 #include <vector>
+#include <iostream>
 #include "TextNote.h"
 class TextNoteCollection {
 public:
@@ -22,7 +23,7 @@ public:
 	std::time_t creation_time() const;
 	std::string creation_time_string() const;
 	std::size_t size() const;
-	void print() const;
+	void print(std::ostream& out = std::cout) const;
 private:
 	std::vector<TextNote> notes;
 

@@ -6,6 +6,8 @@
  */
 
 #include "TextNoteCollection.h"
+#include "doctest.h"
+#include <sstream>
 #include <cassert>
 TextNoteCollection::TextNoteCollection(std::string title, std::time_t creation_time):
         _title(title), _creation_time(creation_time){}
@@ -40,9 +42,32 @@ TextNote TextNoteCollection::get(std::size_t num) const{
 std::string TextNoteCollection::creation_time_string() const{
     return std::asctime(std::localtime(&_creation_time));
 }
-void TextNoteCollection::print() const{
-    std::cout << "Collection:\n"<<"title="<<title()<<",created="<<creation_time_string()<<"\n";
+void TextNoteCollection::print(std::ostream& out) const{
+    out << "Collection:\n"<<"title="<<title()<<",created="<<creation_time_string()<<"\n";
     for (std::size_t i = 0; i < notes.size();i++) {
-        notes[i].print();
+        notes[i].print(out);
     }
+}
+
+TEST_CASE("printing collection") {
+  TextNote note("hello");
+
+  TextNote note2("test1", "``Message``");
+  TextNote note3("test2", "```");
+  TextNote note4("test3", "Message\n\nwith newlines\n");
+
+  TextNoteCollection collection("test");
+  collection.add(note)->add(note2)->add(note3)->add(note4);
+  std::stringstream outstream;
+  collection.print(outstream);
+  Timestamp current = current_time();
+
+  CHECK(outstream.str() ==
+      "Collection:\n"
+      "title=test,created="+time_to_string_detailed(current)+"\n" // two newlines here - separates collection from item
+      "title=hello, text=,created="+time_to_string_detailed(current)+
+      "title=test1, text=``Message``,created="+time_to_string_detailed(current)+
+      "title=test2, text=```,created="+time_to_string_detailed(current)+
+      "title=test3, text=Message\n\nwith newlines\n,created="+time_to_string_detailed(current)
+      );
 }
