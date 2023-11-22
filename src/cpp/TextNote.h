@@ -16,6 +16,7 @@
 class TextNote: public KnowledgeItem {
 	friend class FileBuilder;
 public:
+	//if text is not empty, it must end with endline (\n) - if not present, it is added in constructor
 	TextNote(std::string title, std::string text = "");
 	TextNote(std::string title, std::string text, std::time_t creation_time);
 	std::string text() const;
@@ -25,6 +26,7 @@ public:
 
 private:
 	std::string _text;
+	void normalize_text();
 
     virtual MatchResult _match(SearchCriteria<std::string, std::time_t> *criteria) override;
 };

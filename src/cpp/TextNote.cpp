@@ -13,10 +13,38 @@
 #include <cassert>
 
 TextNote::TextNote(std::string title, std::string text): KnowledgeItem{title}, _text{text} {
+  normalize_text();
 }
 
 TextNote::TextNote(std::string title, std::string text, std::time_t creation_time):
-		KnowledgeItem{title, creation_time}, _text{text}{}
+		KnowledgeItem{title, creation_time}, _text{text}{
+	normalize_text();
+}
+
+
+void TextNote::normalize_text() {
+  if (_text.empty()) {return;}
+  if (_text.back() == '\n') {return;}
+  _text+='\n';
+}
+
+TEST_CASE("creating note without text") {
+  TextNote note("title");
+  CHECK(note.title() == "title");
+  CHECK(note.text() == ""); // newline not added for empty text
+}
+
+TEST_CASE("creating note with text without newline") {
+  TextNote note("title", "text");
+  CHECK(note.title() == "title");
+  CHECK(note.text() == "text\n"); // newline added automatically
+}
+
+TEST_CASE("creating note with text with newline") {
+  TextNote note("title", "text\n");
+  CHECK(note.title() == "title");
+  CHECK(note.text() == "text\n"); // extra newline not added
+}
 
 std::string TextNote::text() const {
 	return _text;

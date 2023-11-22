@@ -163,6 +163,12 @@ TEST_CASE("save and load collection") {
 
   Timestamp current = current_time();
 
+  CHECK(collection.title() == "test");
+  CHECK(collection.creation_time() == current);
+  CHECK(collection.size() == 4);
+
+
+
   FileBuilder::toFile(&collection);
 
 
@@ -171,6 +177,7 @@ TEST_CASE("save and load collection") {
   CHECK(collection2.title() == "test");
   CHECK(collection2.creation_time() == current);
   CHECK(collection2.size() == 4);
+
   TextNote child_note = collection2.get(0);
   CHECK(child_note.title() == "hello");
   CHECK(child_note.text() == "");
@@ -178,7 +185,7 @@ TEST_CASE("save and load collection") {
 
   child_note = collection2.get(1);
   CHECK(child_note.title() == "test1");
-  //CHECK(child_note.text() == "``Message``");
+  CHECK(child_note.text() == "``Message``\n"); // extra newline compared to original - bug or feature?
   CHECK(child_note.creation_time() == current);
 
   child_note = collection2.get(3);
