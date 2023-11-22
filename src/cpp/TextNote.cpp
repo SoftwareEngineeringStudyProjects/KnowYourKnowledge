@@ -12,7 +12,7 @@
 #include <sstream>
 #include <cassert>
 
-#define NORMALIZE_NOTE_TEXT
+//#define NORMALIZE_NOTE_TEXT
 
 TextNote::TextNote(std::string title, std::string text): KnowledgeItem{title}, _text{text} {
 #ifdef NORMALIZE_NOTE_TEXT
@@ -82,6 +82,54 @@ std::ostream& TextNote::output(std::ostream &out) {
 	out<<text()<<std::endl;
 	return out;
 }
+
+TEST_CASE("output note without text") {
+  TextNote note("title");
+  std::string current_time_str = time_to_string_detailed(current_time());
+  std::stringstream sout;
+  note.output(sout);
+  CHECK(sout.str() ==
+         current_time_str+
+         "title\n"
+         "\n");
+
+}
+
+TEST_CASE("output note with text without newline") {
+  TextNote note("title", "text");
+  std::string current_time_str = time_to_string_detailed(current_time());
+  std::stringstream sout;
+  note.output(sout);
+  CHECK(sout.str() ==
+         current_time_str+
+         "title\n"
+#ifdef NORMALIZE_NOTE_TEXT
+         "text\n"
+#else
+         "text"
+#endif
+         "\n");
+
+
+#ifdef NORMALIZE_NOTE_TEXT
+  CHECK(note.text() == "text\n"); // newline added automatically
+#else
+  CHECK(note.text() == "text");
+#endif
+}
+
+TEST_CASE("output note with text with newline") {
+  TextNote note("title", "text\n");
+  std::string current_time_str = time_to_string_detailed(current_time());
+  std::stringstream sout;
+  note.output(sout);
+  CHECK(sout.str() ==
+         current_time_str+
+         "title\n"
+         "text\n"
+         "\n");
+}
+
 
 TEST_CASE("output for object with fixed creation time") {
   //1663850154 = Thu Sep 22 15:35:54 2022

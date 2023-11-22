@@ -25,7 +25,7 @@ TEST_CASE("creating directory containing text notes") {
 	Directory dir("notes");
 	dir.add(&note1).add(&note2);
 
-	dir.output(std::cout);
+	dir.output(std::cout); // TODO: remove extra spam in cout
 
 	std::stringstream sout;
 	dir.output(sout);
