@@ -16,8 +16,8 @@
 #include <ctime>
 
 TEST_CASE("creating directory containing text notes") {
-	std::time_t current_time = time(nullptr);
-	std::string current_time_str = std::asctime(std::localtime(&current_time));
+	std::time_t current = current_time();
+	std::string current_time_str = time_to_string_detailed(current);
 	TextNote note1("n1");
 	TextNote note2("n2","note with text");
 
