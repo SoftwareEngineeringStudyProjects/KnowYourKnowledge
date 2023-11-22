@@ -12,13 +12,19 @@
 #include <sstream>
 #include <cassert>
 
+#define NORMALIZE_NOTE_TEXT
+
 TextNote::TextNote(std::string title, std::string text): KnowledgeItem{title}, _text{text} {
+#ifdef NORMALIZE_NOTE_TEXT
   normalize_text();
+#endif
 }
 
 TextNote::TextNote(std::string title, std::string text, std::time_t creation_time):
 		KnowledgeItem{title, creation_time}, _text{text}{
-	normalize_text();
+#ifdef NORMALIZE_NOTE_TEXT
+  normalize_text();
+#endif
 }
 
 
@@ -37,7 +43,11 @@ TEST_CASE("creating note without text") {
 TEST_CASE("creating note with text without newline") {
   TextNote note("title", "text");
   CHECK(note.title() == "title");
+#ifdef NORMALIZE_NOTE_TEXT
   CHECK(note.text() == "text\n"); // newline added automatically
+#else
+  CHECK(note.text() == "text");
+#endif
 }
 
 TEST_CASE("creating note with text with newline") {
