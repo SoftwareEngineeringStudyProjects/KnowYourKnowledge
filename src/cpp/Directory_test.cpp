@@ -20,10 +20,11 @@ TEST_CASE("creating directory containing text notes") {
 	std::string current_time_str = time_to_string_detailed(current);
 	TextNote note1("n1");
 	TextNote note2("n2","note with text");
+	TextNote note3("n3");
 
 
 	Directory dir("notes");
-	dir.add(&note1).add(&note2);
+	dir.add(&note1).add(&note2).add(&note3);
 
 	dir.output(std::cout); // TODO: remove extra spam in cout
 
@@ -31,7 +32,8 @@ TEST_CASE("creating directory containing text notes") {
 	dir.output(sout);
 	std::string expected = current_time_str + "notes\n"
 			+ current_time_str + "n1\n\n"
-			+ current_time_str + "n2\nnote with text\n";
+			+ current_time_str + "n2\nnote with text\n\n"
+			+ current_time_str + "n3\n\n";
 	CHECK(sout.str() == expected);
 
 

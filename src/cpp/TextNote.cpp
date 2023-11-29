@@ -12,7 +12,7 @@
 #include <sstream>
 #include <cassert>
 
-//#define NORMALIZE_NOTE_TEXT
+#define NORMALIZE_NOTE_TEXT
 
 TextNote::TextNote(std::string title, std::string text): KnowledgeItem{title}, _text{text} {
 #ifdef NORMALIZE_NOTE_TEXT
