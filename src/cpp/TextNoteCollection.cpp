@@ -49,6 +49,34 @@ void TextNoteCollection::print(std::ostream& out) const{
     }
 }
 
+bool compare_strings_notify_diff(const std::string& first, const std::string& second,
+    std::ostream& out = std::cout) {
+  if (first == second) {return true;}
+  std::stringstream sin1{first};
+  std::stringstream sin2{second};
+  std::string line1;
+  std::string line2;
+  int line_count = 0;
+  while (std::getline(sin1, line1)) {
+      if (!std::getline(sin2, line2)) {
+        out<<"second has fewer lines, line_count="<<line_count<<", first line=`"<<line1<<"`"<<std::endl;
+        break;
+      }
+      if (line1 == line2) {
+        //out<<line_count<<":"<<line1<<std::endl;
+        line_count++;
+        continue;
+      } else {
+        out<<"different lines on line_count="<<line_count<<", line1=`"<<line1<<"`, line2=`"<<line2<<"`"<<std::endl;
+        line_count++;
+      }
+
+  }
+
+
+  return false;
+}
+
 TEST_CASE("printing collection") {
   TextNote note("hello");
 
@@ -62,12 +90,12 @@ TEST_CASE("printing collection") {
   collection.print(outstream);
   Timestamp current = current_time();
 
-  CHECK(outstream.str() ==
+  CHECK(compare_strings_notify_diff(outstream.str(),
       "Collection:\n"
       "title=test,created="+time_to_string_detailed(current)+"\n" // two newlines here - separates collection from item
       "title=hello, text=,created="+time_to_string_detailed(current)+
       "title=test1, text=``Message``,created="+time_to_string_detailed(current)+
       "title=test2, text=```,created="+time_to_string_detailed(current)+
       "title=test3, text=Message\n\nwith newlines\n,created="+time_to_string_detailed(current)
-      );
+      ));
 }
