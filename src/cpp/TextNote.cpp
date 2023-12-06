@@ -203,17 +203,17 @@ TEST_CASE("Match with criteria with non-matching conditions, for title") {
 }
 
 TEST_CASE("Match with criteria with non-matching conditions, for text") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
-    criteria.addEqualToCheck<std::string>("text", "nine");
+    criteria.addEqualToCheck<std::string>("text", "nine\n");
     CHECK(item.match(&criteria) == 0);
 }
 
 TEST_CASE("Match with criteria with non-matching conditions, for text and title") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
     criteria.addEqualToCheck<std::string>("title", "nine");
-    criteria.addEqualToCheck<std::string>("text", "nine");
+    criteria.addEqualToCheck<std::string>("text", "nine\n");
     CHECK(item.match(&criteria) == 0);
 }
 
@@ -225,7 +225,7 @@ TEST_CASE("Match with criteria with non-matching type conditions, for title") {
 }
 
 TEST_CASE("Match with criteria with non-matching type conditions, for text and title") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
     criteria.addEqualToCheck<std::string>("nine");
     CHECK(item.match(&criteria) == 0);
@@ -239,17 +239,17 @@ TEST_CASE("Match with criteria with matching condition, for title") {
 }
 
 TEST_CASE("Match with criteria with matching condition, for text") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
-    criteria.addEqualToCheck<std::string>("text", "text");
+    criteria.addEqualToCheck<std::string>("text", "text\n");
     CHECK(item.match(&criteria) == 1);
 }
 
 TEST_CASE("Match with criteria with matching condition, for text and title") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
     criteria.addEqualToCheck<std::string>("title", "a");
-    criteria.addEqualToCheck<std::string>("text", "text");
+    criteria.addEqualToCheck<std::string>("text", "text\n");
     CHECK(item.match(&criteria) == 1);
 }
 
@@ -261,9 +261,9 @@ TEST_CASE("Match with criteria with matching type condition, for title") {
 }
 
 TEST_CASE("Match with criteria with matching type condition, for text and title") {
-    TextNote item("a", "a");
+    TextNote item("a\n", "a\n"); // for this test, check that all string values are the same - need to set title same as text
     SearchCriteria<std::string, std::time_t> criteria;
-    criteria.addEqualToCheck<std::string>("a");
+    criteria.addEqualToCheck<std::string>("a\n");
     CHECK(item.match(&criteria) == 1);
 }
 
@@ -276,21 +276,21 @@ TEST_CASE("Match with criteria with matching and non-matching conditions, for ti
 }
 
 TEST_CASE("Match with criteria with matching and non-matching conditions, for text") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
-    criteria.addEqualToCheck<std::string>("text", "nine");
-    criteria.addEqualToCheck<std::string>("text", "text");
+    criteria.addEqualToCheck<std::string>("text", "nine\n");
+    criteria.addEqualToCheck<std::string>("text", "text\n");
     CHECK(item.match(&criteria) == 0.5);
 }
 
 TEST_CASE("Match with criteria with matching and non-matching conditions, for text and title") {
-    TextNote item("a", "text");
+    TextNote item("a", "text\n");
     SearchCriteria<std::string, std::time_t> criteria;
     criteria.addEqualToCheck<std::string>("title", "nine");
     criteria.addEqualToCheck<std::string>("title", "a");
 
-    criteria.addEqualToCheck<std::string>("text", "nine");
-    criteria.addEqualToCheck<std::string>("text", "text");
+    criteria.addEqualToCheck<std::string>("text", "nine\n");
+    criteria.addEqualToCheck<std::string>("text", "text\n");
     CHECK(item.match(&criteria) == 0.5);
 }
 
@@ -303,9 +303,9 @@ TEST_CASE("Match with criteria with matching and non-matching type conditions, f
 }
 
 TEST_CASE("Match with criteria with matching and non-matching type conditions, for text and title") {
-    TextNote item("a", "nine");
+    TextNote item("a", "nine\n");
     SearchCriteria<std::string, std::time_t> criteria;
-    criteria.addEqualToCheck<std::string>("nine");
+    criteria.addEqualToCheck<std::string>("nine\n");
     criteria.addEqualToCheck<std::string>("a");
     CHECK(item.match(&criteria) == 0.5);
 }
