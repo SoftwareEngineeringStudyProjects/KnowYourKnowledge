@@ -94,8 +94,8 @@ TEST_CASE("printing collection") {
       "Collection:\n"
       "title=test,created="+time_to_string_detailed(current)+"\n" // two newlines here - separates collection from item
       "title=hello, text=,created="+time_to_string_detailed(current)+
-      "title=test1, text=``Message``,created="+time_to_string_detailed(current)+
-      "title=test2, text=```,created="+time_to_string_detailed(current)+
+      "title=test1, text=``Message``\n,created="+time_to_string_detailed(current)+
+      "title=test2, text=```\n,created="+time_to_string_detailed(current)+
       "title=test3, text=Message\n\nwith newlines\n,created="+time_to_string_detailed(current)
       ));
 }
