@@ -1,0 +1,1 @@
+export { getVersion } from "./version";

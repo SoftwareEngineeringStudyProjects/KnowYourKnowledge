@@ -34,3 +34,7 @@
 # VS Code
 .vscode/
 build/
+
+# TypeScript
+src/ts/node_modules/
+dist/
