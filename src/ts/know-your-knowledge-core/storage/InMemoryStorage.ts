@@ -17,9 +17,7 @@ export class InMemoryStorage extends Storage{
       } else if (Array.isArray(where)) {
         // If 'where' is an array, call save for each item in the array
         where.forEach((whereItem) => {
-          if (this.isObject(whereItem) && 'key' in whereItem) {
             this.save(item, whereItem);
-          }
         });
       } else {
         throw new Error('The "where" parameter must be a string, object with "key", or an array.');

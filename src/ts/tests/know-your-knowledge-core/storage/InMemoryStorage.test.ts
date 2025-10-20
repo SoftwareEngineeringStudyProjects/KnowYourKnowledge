@@ -40,6 +40,36 @@ describe('InMemoryStorage', () => {
       expect(loadedItem2).toEqual(item);
     });
 
+    it('should store an item in multiple places when "where" is an array of KnowledgeItems of different types', async () => {
+      const item: KnowledgeItem = { title: 'Test Knowledge', content: 'Some content' };
+      const result = await storage.save(item, [{ key: 'item_key_1' }, 'item_key_2' ]);
+
+      expect(result).toEqual({ result: 'ok' });
+
+      const loadedItem1 = await storage.load({ key: 'item_key_1' });
+      expect(loadedItem1).toEqual(item);
+
+      const loadedItem2 = await storage.load('item_key_2');
+      expect(loadedItem2).toEqual(item);
+    });
+
+    it('should store an item in multiple places when "where" is an array of KnowledgeItems of different types, including nested arrays', async () => {
+      const item: KnowledgeItem = { title: 'Test Knowledge', content: 'Some content' };
+      const result = await storage.save(item, [{ key: 'item_key_1' }, [ 'item_key_2', { key: 'item_key_3' }] ]);
+
+      expect(result).toEqual({ result: 'ok' });
+
+      const loadedItem1 = await storage.load({ key: 'item_key_1' });
+      expect(loadedItem1).toEqual(item);
+
+      const loadedItem2 = await storage.load('item_key_2');
+      expect(loadedItem2).toEqual(item);
+
+      const loadedItem3 = await storage.load({ key: 'item_key_3' });
+      expect(loadedItem2).toEqual(item);      
+    });    
+
+
     it('should return error if "where" is not a string, object with "key", or array', async () => {
       const item: KnowledgeItem = { title: 'Test Knowledge', content: 'Some content' };
       
