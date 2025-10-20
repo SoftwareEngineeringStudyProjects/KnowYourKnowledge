@@ -3,11 +3,18 @@ import { KnowledgeItem } from '../domain/entities/KnowledgeItem';
 
 export class InMemoryStorage extends Storage{
   private storage: Map<string, KnowledgeItem> = new Map();
+  private readonly allKey = '$all'; // Special key for entire storage
 
   // Implement the save method: store a KnowledgeItem
   async save(item: KnowledgeItem, where: KnowledgeItem): Promise<KnowledgeItem> {
     try {
-      if (typeof where === 'string') {
+      if (where === this.allKey) {
+        // Special case: Save the entire storage when "$all" is used
+        this.storage.clear(); // Clear existing storage and store the entire new storage
+        Object.entries(item).forEach(([key, value]) => {
+          this.storage.set(key, value);
+        });
+      } else if (typeof where === 'string') {
         // If 'where' is a string, use it as the key where the item will be stored
         this.storage.set(where, item);
       } else if (this.isObject(where) && 'key' in where) {
@@ -36,7 +43,14 @@ export class InMemoryStorage extends Storage{
 
   // Implement the load method: retrieve a KnowledgeItem by the "where" condition
   async load(where: KnowledgeItem): Promise<KnowledgeItem | null> {
-    if (typeof where === 'string') {
+    if (where === this.allKey) {
+      // Special case: Load all items in storage when "$all" is requested
+      const allItems: { [key: string]: KnowledgeItem } = {};
+      this.storage.forEach((value, key) => {
+        allItems[key] = value;
+      });
+      return Object.keys(allItems).length > 0 ? allItems : null;
+    } else if (typeof where === 'string') {
       // If 'where' is a string, return the item stored with that key
       return this.storage.get(where) || null;
     } else if (this.isObject(where) && 'key' in where) {
