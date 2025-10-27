@@ -4,12 +4,18 @@ import { config } from '../config';
 import { Storage } from '../domain/entities/Storage';
 import { KnowledgeItem } from '../domain/entities/KnowledgeItem';
 
+
+interface FileJsonStorageOptions {
+  storageDirectory?: string;
+}
+
+
 export class FileJsonStorage extends Storage {
   private storageDir: string;
 
-  constructor() {
+  constructor(options?: FileJsonStorageOptions) {
     super();
-    this.storageDir = config.storageDirectory;
+    this.storageDir = options?.storageDirectory || config.storageDirectory;
 
     // Ensure the directory exists
     if (!fs.existsSync(this.storageDir)) {
