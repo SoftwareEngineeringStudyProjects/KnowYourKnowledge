@@ -18,27 +18,20 @@ export class FileJsonStorage extends Storage {
   }
 
   // Save method accepts and returns KnowledgeItem
-  async save(item: KnowledgeItem, where: KnowledgeItem): Promise<{ result: string; fullPath?: string; message?: string }> {
+  async save(item: KnowledgeItem, where: KnowledgeItem): Promise<KnowledgeItem> {
     // Check if 'where' is a string
     if (typeof where !== 'string') {
       return {
         result: "error",
-        message: "'where' must be a string"
+        message: "The 'where' parameter must be a string"
       };
     }
 
-    const filePath = path.join(this.storageDir, `${where}.json`);
+    const filePath = path.join(this.storageDir, where); // for automatically added extension, replace with `${where}.json`
 
     try {
-      // Check if item is a string (since we're supporting only string for now)
-      if (typeof item !== 'string') {
-        return {
-          result: "error",
-          message: "Only string KnowledgeItems are supported"
-        };
-      }
 
-      // Save the item (string) to the file
+      // Save the item to the file
       await fs.promises.writeFile(filePath, JSON.stringify(item, null, 2));
       
       return {
@@ -57,17 +50,20 @@ export class FileJsonStorage extends Storage {
 
   // Load method accepts 'where' as string, returns a string or null
   async load(where: KnowledgeItem): Promise<KnowledgeItem | null> {
-    // Check if 'where' is a string
-    if (typeof where !== 'string') {
-      throw new Error("'where' must be a string");
-    }
-
-    const filePath = path.join(this.storageDir, `${where}.json`);
 
     try {
+      // Check if 'where' is a string
+      if (typeof where !== 'string') {
+        throw new Error("The 'where' parameter must be a string");
+      }
+
+      const filePath = path.join(this.storageDir, where); // for automatically added extension, replace with `${where}.json`
+
+  
       if (fs.existsSync(filePath)) {
         const fileContent = await fs.promises.readFile(filePath, 'utf-8');
-        return fileContent as KnowledgeItem; // Cast as KnowledgeItem (string)
+        const item = JSON.parse(fileContent);
+        return item; 
       } else {
         return null;
       }
