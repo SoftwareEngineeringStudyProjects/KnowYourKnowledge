@@ -10,9 +10,12 @@
     "ky-ts": "../../dist/ts/ky-ts/index.js"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
+    "@types/jest": "^29.0.0",
     "jest": "^29.0.0",
     "ts-jest": "^29.0.0",
-    "@types/jest": "^29.0.0"
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "googleapis": "^165.0.0"
   }
 }

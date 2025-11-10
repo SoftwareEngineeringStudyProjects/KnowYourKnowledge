@@ -38,3 +38,8 @@ build/
 # TypeScript
 src/ts/node_modules/
 dist/
+src/ts/user-data/
+credentials.json
+token.json
+src/ts/credentials.json
+src/ts/token.json

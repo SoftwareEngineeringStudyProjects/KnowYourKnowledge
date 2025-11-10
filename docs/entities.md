@@ -1,6 +1,20 @@
 # Prompt
 Provide documentation for the following TypeScript code:
 
+Using the following TypeScript interfaces: 
+
+export type KnowledgeItem = Record<string, any> | KnowledgeItem[] | string;
+
+export abstract class Storage {
+  // The `save` method stores a KnowledgeItem and potentially updates another one.
+  abstract save(item: KnowledgeItem, where: KnowledgeItem): Promise<KnowledgeItem>;
+
+  // The `load` method returns a KnowledgeItem based on the `where` condition.
+  abstract load(where: KnowledgeItem): Promise<KnowledgeItem | null>;
+}
+
+Implement the following ticket:
+
 # TypeScript
 
 
